@@ -306,6 +306,10 @@
     /* horizon glow where sky meets sea */
     '    float hor = exp(-pow((vUv.y - wl) * 130.0, 2.0));',
     '    col = mix(sea, sky, isSky) + vec3(0.100, 0.170, 0.200) * hor;',
+    /* dye under the surface is tinted toward sea water, so the currents read
+       as water and never as pale smoke; foam and spray at the line stay white */
+    '    float dpt = clamp((wl - vUv.y) / 0.30, 0.0, 1.0);',
+    '    c = mix(c, c * vec3(0.50, 0.92, 1.28), dpt);',
     '    col += c * 1.25;',
     '    col += spec * d * 0.55;',
     /* the ship's reflection: mirrored above the line, wobbling, fading with depth */
@@ -476,6 +480,39 @@
     return { x: SHIP_RECT.x + (SHIP_RECT.w - w) / 2, w: w, bottomY: SHIP_RECT.bottomY };
   }
 
+  /* real model sprite: a CC0 regional jet (Innerscene library), nose left into
+     the wind — same contract as the car and the ship. The GLB ships with a
+     ground-shadow mesh; the bottom 92px were cropped off the render.          */
+  var PLANE_IMG_AR = 4.5155;                               /* png width / height */
+  var PLANE_RECT = { x: 0.075, w: 0.85, bottomY: 0.78 };   /* canvas uv, y down  */
+  var PLANE_MASK = null;
+
+  function buildPlaneMask(img) {
+    var cv = newCanvas(Math.round(img.width / 2), Math.round(img.height / 2));
+    var ctx = cv.getContext('2d');
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    var d = ctx.getImageData(0, 0, cv.width, cv.height);
+    var p = d.data;
+    for (var i = 0; i < p.length; i += 4) {
+      if (p[i + 3] > 110) { p[i] = 255; p[i + 1] = 255; p[i + 2] = 255; p[i + 3] = 255; }
+      else { p[i + 3] = 0; }
+    }
+    ctx.putImageData(d, 0, 0);
+    return cv;
+  }
+
+  /* the fin is tall for the fuselage length; shrink on narrow canvases */
+  function planeRectFor(aspect) {
+    var w = PLANE_RECT.w;
+    var hUv = w * aspect / PLANE_IMG_AR;
+    var top = PLANE_RECT.bottomY - hUv * 0.985;
+    if (top < 0.03) {
+      var k = (PLANE_RECT.bottomY - 0.03) / (hUv * 0.985);
+      w *= k;
+    }
+    return { x: PLANE_RECT.x + (PLANE_RECT.w - w) / 2, w: w, bottomY: PLANE_RECT.bottomY };
+  }
+
   var SIL = {
     /* low-slung coupe, side view, nose left */
     car: function (ctx, W, H, op) {
@@ -589,10 +626,21 @@
       var h = w / SHIP_IMG_AR;
       ctx.drawImage(SHIP_MASK, r.x * W, r.bottomY * H - h, w, h);
       return true;
+    },
+
+    /* the real jet: alpha mask into the solver */
+    planeReal: function (ctx, W, H, op) {
+      if (op !== 'fill' || !PLANE_MASK) return false;
+      var r = planeRectFor(W / H);
+      var w = r.w * W;
+      var h = w / PLANE_IMG_AR;
+      ctx.drawImage(PLANE_MASK, r.x * W, r.bottomY * H - h, w, h);
+      return true;
     }
   };
   SIL.carReal.noStroke = true;
   SIL.shipReal.noStroke = true;
+  SIL.planeReal.noStroke = true;
 
   /* --------------------------------- scenes ------------------------------- */
   var SCENES = {
@@ -631,6 +679,18 @@
       waterLine: 0.50, heave: 0.0125, pitchDeg: 1.6, waveAmp: 0.0090,
       tag: 'Live · sail-ship.glb · seaway',
       foot: [['water', '5.2 m/s'], ['wake', 'shedding'], ['solver', 'navier-stokes']]
+    },
+    plane: {
+      mode: 0, sil: 'planeReal', flowDir: 1,  /* wind left -> right, the real jet noses into it */
+      inflow: 7.2, gust: 0.34,
+      velDiss: 0.19, denDiss: 2.90, curl: 20, pressure: 0.84,
+      /* the main rake sweeps the wing chord and separates over the fuselage;
+         the upper pair runs clean above the fin */
+      lineCount: 4, lineFrom: 0.205, lineTo: 0.325,
+      lines2: { count: 2, from: 0.455, to: 0.495 },
+      dye: [0.34, 0.70, 1.00], dyeVar: 0.30, dyeGain: 0.036, splatRadius: 0.050,
+      tag: 'Live · regional-jet.glb · wind tunnel',
+      foot: [['wind', '7.2 m/s'], ['model', 'regional jet'], ['solver', 'navier-stokes']]
     }
   };
 
@@ -657,7 +717,12 @@
        bob, so the solid mask must be static too — otherwise the flow wraps
        around a hull that is not where the eye sees it.                        */
     var drawn = SIL[scene.sil](ctx, W, H, 'fill');
-    if (drawn === false) SIL[scene.sil === 'shipReal' ? 'hull' : 'car'](ctx, W, H, 'fill');   /* sprite not loaded yet */
+    if (drawn === false) {
+      /* no silhouette yet for the real models: the ship falls back to its
+         vector hull, the jet waits for its sprite rather than faking a car */
+      var fb = scene.sil === 'shipReal' ? 'hull' : (scene.sil === 'planeReal' ? null : 'car');
+      if (fb) SIL[fb](ctx, W, H, 'fill');
+    }
     ctx.restore();
   }
 
@@ -770,6 +835,27 @@
         }
       };
       shipImg.src = opts.shipSrc;
+    }
+
+    /* real plane sprite state (a third texture so car + ship + jet coexist) */
+    var planeTex = null, planeReady = false;
+    if (opts.planeSrc && global.Image) {
+      var planeImg = new Image();
+      planeImg.onload = function () {
+        PLANE_MASK = buildPlaneMask(planeImg);
+        planeTex = makeMaskTexture();
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, planeTex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, planeImg);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        planeReady = true;
+        if (scene.sil === 'planeReal') {
+          rasterizeObstacle(obsCv, scene, 0);
+          uploadMask(obsTex, obsCv);
+        }
+      };
+      planeImg.src = opts.planeSrc;
     }
 
     function makeMaskTexture() {
@@ -908,29 +994,42 @@
       var wl = 1 - scene.waterLine;              /* y-up, matches the shader */
       var p = hullPoints();
       var g = scene.dyeGain;
-      var foam = [0.82, 0.93, 1.00];
-      var deep = [0.42, 0.70, 0.95];
+      var foam = [0.90, 0.97, 1.00];             /* whitewater */
+      var deep = [0.30, 0.62, 0.95];             /* sea-blue current */
       var pulse = 0.75 + Math.abs(Math.sin(t * 0.0021)) * 0.6;
 
-      /* bow: the stem shoulders water aside — a bright foamy collar at the line */
-      splat(p.bow, wl - 0.012, -120 * pulse, 42 * pulse,
-        [foam[0] * g * 2.4, foam[1] * g * 2.4, foam[2] * g * 2.4], 0.050);
-      splat(p.bow - 0.030, wl - 0.034, -80 * pulse, -28 * pulse,
-        [deep[0] * g * 1.7, deep[1] * g * 1.7, deep[2] * g * 1.7], 0.044);
+      /* bow: broken whitewater AT the waterline — never a tall pale column,
+         that reads as smoke. The stem shoulders water aside; foam sheds aft. */
+      splat(p.bow, wl - 0.004, -95 * pulse, 6 * pulse,
+        [foam[0] * g * 2.0, foam[1] * g * 2.0, foam[2] * g * 2.0], 0.028);
+      splat(p.bow - 0.016, wl - 0.010, -70 * pulse, -6 * pulse,
+        [foam[0] * g * 1.4, foam[1] * g * 1.4, foam[2] * g * 1.4], 0.022);
+      /* spray: a few droplets off the stem, thrown up and fanned back */
+      for (var i = 0; i < 3; i++) {
+        splat(p.bow - 0.006 + (Math.random() - 0.5) * 0.012,
+              wl + 0.004 + Math.random() * 0.012,
+              -60 * pulse - Math.random() * 50,
+              26 + Math.random() * 52,
+              [foam[0] * g * 2.6, foam[1] * g * 2.6, foam[2] * g * 2.6],
+              0.009 + Math.random() * 0.008);
+      }
+      /* under-bow current: the sea is deflected DOWN along the hull */
+      splat(p.bow - 0.030, wl - 0.034, -80 * pulse, -34 * pulse,
+        [deep[0] * g * 1.8, deep[1] * g * 1.8, deep[2] * g * 1.8], 0.044);
 
-      /* stern: the wake is shed from the transom and carried downstream */
+      /* stern: whitewater off the transom, then the wake carried downstream */
       var shed = 0.60 + Math.abs(Math.sin(t * 0.0013)) * 0.55;
-      splat(p.stern, wl - 0.014, -105 * shed, -26 * shed,
-        [foam[0] * g * 2.8, foam[1] * g * 2.8, foam[2] * g * 2.8], 0.052);
-      splat(p.stern + 0.025, wl - 0.038, -70 * shed, -40 * shed,
-        [deep[0] * g * 1.9, deep[1] * g * 1.9, deep[2] * g * 1.9], 0.042);
+      splat(p.stern, wl - 0.005, -100 * shed, -4 * shed,
+        [foam[0] * g * 2.2, foam[1] * g * 2.2, foam[2] * g * 2.2], 0.030);
+      splat(p.stern + 0.025, wl - 0.030, -70 * shed, -30 * shed,
+        [deep[0] * g * 2.0, deep[1] * g * 2.0, deep[2] * g * 2.0], 0.042);
 
-      /* skin of foam where the hull meets the sea, densest at the quarters */
+      /* broken water where the hull meets the sea */
       for (var i = 0; i < 3; i++) {
         var f = 0.22 + i * 0.28;
         var x = p.stern + (p.bow - p.stern) * f;
-        splat(x, wl - 0.006, -60 * shed, -8 * shed,
-          [foam[0] * g * 1.2, foam[1] * g * 1.2, foam[2] * g * 1.2], 0.030);
+        splat(x, wl - 0.004, -55 * shed, -6 * shed,
+          [foam[0] * g * 0.9, foam[1] * g * 0.9, foam[2] * g * 0.9], 0.020);
       }
     }
 
@@ -957,6 +1056,35 @@
       var u = scene.flowDir * scene.inflow * 16 * shed;
       splat(0.852, 0.302 + flap, u, 14 * shed, [0.40 * g, 0.66 * g, 0.94 * g], 0.048);
       splat(0.838, 0.372 + flap * 0.6, u * 0.75, -22 * shed, [0.30 * g, 0.55 * g, 0.85 * g], 0.040);
+    }
+
+    /* jet: the counter-rotating pair rolls up off the wing and trails
+       downstream, plus the tail-cone wake — the tunnel shot every aircraft
+       modeller knows. Both anchors are read off the real sprite rect, so the
+       trails start exactly where the eye sees the wing and the tail.         */
+    function injectPlane(t) {
+      if (scene.sil !== 'planeReal' || !planeReady) return;
+      var g = scene.dyeGain;
+      var r = planeRectFor(canvas.width / canvas.height);
+      var hUv = r.w * (canvas.width / canvas.height) / PLANE_IMG_AR;
+      /* png fraction -> canvas uv (y-up): wing root at x .475 / y .831,
+         tail cone at x .895 / y .727, measured on the rendered jet png */
+      var toUv = function (fx, fy) {
+        return { x: r.x + fx * r.w, y: 1 - (r.bottomY - hUv + fy * hUv) };
+      };
+      var wing = toUv(0.475, 0.831);
+      var tail = toUv(0.895, 0.727);
+      var shed = 0.60 + Math.abs(Math.sin(t * 0.0015)) * 0.55;
+      var u = scene.flowDir * scene.inflow * 15 * shed;
+      var wob = Math.sin(t * 0.0026) * 0.004;
+      /* the pair: one core above the chord, one below, counter-rotating */
+      splat(wing.x + 0.010, wing.y + 0.024 + wob, u * 0.92,  34 * shed,
+        [0.40 * g, 0.66 * g, 0.94 * g], 0.014);
+      splat(wing.x + 0.010, wing.y - 0.024 + wob, u * 0.92, -34 * shed,
+        [0.30 * g, 0.55 * g, 0.85 * g], 0.014);
+      /* tail cone wake */
+      splat(tail.x, tail.y + wob * 0.6, u * 0.80, Math.sin(t * 0.0031) * 12,
+        [0.34 * g, 0.62 * g, 0.92 * g], 0.020);
     }
 
     /* ------------------------------ boundary ------------------------------ */
@@ -1071,9 +1199,12 @@
       var rect = null, tex = null;
       if (scene.sil === 'carReal' && spriteReady) { rect = CAR_RECT; tex = spriteTex; }
       if (scene.sil === 'shipReal' && shipReady) { rect = shipRectFor(canvas.width / canvas.height); tex = shipTex; }
+      if (scene.sil === 'planeReal' && planeReady) { rect = planeRectFor(canvas.width / canvas.height); tex = planeTex; }
       if (tex) {
         var aspect = canvas.width / canvas.height;
-        var imgAR = (rect === CAR_RECT) ? CAR_IMG_AR : SHIP_IMG_AR;
+        var imgAR = CAR_IMG_AR;
+        if (scene.sil === 'shipReal') imgAR = SHIP_IMG_AR;
+        if (scene.sil === 'planeReal') imgAR = PLANE_IMG_AR;
         var hUv = rect.w * aspect / imgAR;
         gl.uniform1i(pDisplay.u.uSprite, 2);
         gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -1164,6 +1295,22 @@
           ctx.quadraticCurveTo(cx, yy - H * 0.004, cx + len / 2, yy);
           ctx.stroke();
         }
+
+        /* bow wave: a bright crest piles up at the stem and runs forward */
+        var bw = hullPoints();
+        var bwX = bw.bow * W;
+        var bwY = waveAt(bwX, 7.2, 0, amp);
+        ctx.save();
+        ctx.strokeStyle = 'rgba(205,252,255,.55)';
+        ctx.lineWidth = Math.max(1.2, W * 0.0026);
+        ctx.shadowColor = 'rgba(94,234,212,.9)';
+        ctx.shadowBlur = W * 0.014;
+        ctx.beginPath();
+        ctx.moveTo(bwX - W * 0.004, bwY - H * 0.004);
+        ctx.quadraticCurveTo(bwX + W * 0.040, bwY - H * 0.022,
+                             bwX + W * 0.082, bwY + H * 0.005);
+        ctx.stroke();
+        ctx.restore();
       } else {
         /* inlet rake on the left */
         ctx.save();
@@ -1209,6 +1356,7 @@
         if (scene.mode === 1) injectHull(now);
         injectHair(now);
         injectCarWake(now);
+        injectPlane(now);
         step(dt);
       }
       warm++;
@@ -1276,6 +1424,7 @@
       getScene: function () { return scene; },
       spriteReady: function () { return spriteReady; },
       shipReady: function () { return shipReady; },
+      planeReady: function () { return planeReady; },
       isWebGL2: info.isWebGL2
     };
   }
