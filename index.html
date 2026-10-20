@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wakefield — Give it wind. Give it water.</title>
+<title>Wake — Give it wind. Give it water.</title>
 <meta name="description" content="Upload your car, ship or plane model, pick air or water, and get the film back — smoke off the canopy, a bow wave off the stem, spray over the deck.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,11 +86,9 @@
   .hero-visual{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
     background:linear-gradient(180deg,#0a0e14,#070a0f);aspect-ratio:1/.94}
   .hero-visual svg{display:block;width:100%;height:100%}
-  .hero-visual canvas,#fluid-proof,#overlay-proof{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hero-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   #fluid{touch-action:pan-y}
-  #overlay,#overlay-proof{pointer-events:none}
-  .show-visual{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
-    background:linear-gradient(180deg,#071018,#04080d);aspect-ratio:440/320}
+  #overlay{pointer-events:none}
   .viz-tag{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--mono);font-size:10px;
     letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:rgba(7,9,13,.7);
     border:1px solid var(--line);padding:5px 10px;border-radius:6px;backdrop-filter:blur(6px)}
@@ -139,15 +137,14 @@
   .out-body h3{font-size:15.5px;font-weight:600;margin-bottom:9px;letter-spacing:.01em}
   .out-body p{color:var(--muted);font-size:13.5px;line-height:1.6}
 
-  .shelf-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:48px;align-items:center}
+  .runs{margin-top:34px;padding-top:26px;border-top:1px dashed var(--line-2)}
+  .runs-k{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.14em;
+    text-transform:uppercase;display:block;margin-bottom:14px}
   .ex-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
   .ex{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);
     border-radius:100px;padding:8px 16px;background:var(--panel);transition:color .2s,border-color .2s}
   .ex:hover{color:var(--teal);border-color:rgba(94,234,212,.35)}
   .ex.hi{color:var(--teal);border-color:rgba(94,234,212,.35);background:rgba(94,234,212,.06)}
-  .show-visual{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
-    background:linear-gradient(180deg,#0a0e14,#070a0f);aspect-ratio:11/8}
-  .show-visual svg{display:block;width:100%;height:100%}
 
   .prices{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   .price{border:1px solid var(--line);border-radius:14px;padding:26px 24px;background:var(--panel);
@@ -196,7 +193,6 @@
     .hero-grid{grid-template-columns:1fr;gap:40px}
     .hero-visual{aspect-ratio:1/.8;order:-1}
     .steps,.outs{grid-template-columns:1fr}
-    .shelf-grid{grid-template-columns:1fr}
     .form-beta{grid-template-columns:1fr 1fr}
     .form-beta button{grid-column:1/-1}
     .proof-stat{border-right:none;border-bottom:1px solid var(--line)}
@@ -220,7 +216,7 @@
         <path d="M2 8c2.2 0 2.2-3.4 4.6-3.4S8.8 8 11 8s2.2-3.4 4.6-3.4S18 8 20 8" stroke="#5eead4" stroke-width="1.5" stroke-linecap="round"/>
         <path d="M2 13c2.2 0 2.2-3 4.6-3S8.8 13 11 13s2.2-3 4.6-3S18 13 20 13" stroke="#38bdf8" stroke-width="1.3" stroke-linecap="round" opacity=".65"/>
       </svg>
-      <b>WAKEFIELD</b>
+      <b>WAKE</b>
       <span>air &middot; water</span>
     </a>
     <div class="nav-links">
@@ -275,12 +271,12 @@
 <section class="proof">
   <div class="wrap proof-in">
     <div class="proof-stat">
-      <b>~1 min</b>
-      <span>from upload to film. No rigging, no baking &mdash; the physics just runs.</span>
+      <b>Real solver</b>
+      <span>a true Navier&ndash;Stokes solve &mdash; the same physics a wind tunnel runs. Not a filter, not a preset.</span>
     </div>
     <div class="proof-stat">
-      <b>Real solver</b>
-      <span>a true Navier&ndash;Stokes solve &mdash; the same physics a wind tunnel runs.</span>
+      <b>The fine stuff</b>
+      <span>smoke that wraps your canopy, foam that rides the waterline, vortices off the wing. The details are the point.</span>
     </div>
     <div class="proof-stat">
       <b>Air + water</b>
@@ -310,6 +306,18 @@
         <span class="step-n">STEP 03</span>
         <h3>Take the film</h3>
         <p>A looping video of your model, alive. Post it, send it, keep it.</p>
+      </div>
+    </div>
+    <div class="runs">
+      <span class="runs-k">Runs on anything with a shape</span>
+      <div class="ex-row">
+        <span class="ex hi">Car models</span>
+        <span class="ex hi">Ship models</span>
+        <span class="ex hi">Plane models</span>
+        <span class="ex">Figurines</span>
+        <span class="ex">Anime &amp; game figures</span>
+        <span class="ex">Dioramas</span>
+        <span class="ex">Kit builds &amp; prints</span>
       </div>
     </div>
   </div>
@@ -357,44 +365,12 @@
   </div>
 </section>
 
-<section id="shelf">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num">03 &mdash; WHAT PEOPLE RUN</span>
-      <h2>Cars, ships, planes &mdash; and the rest of the shelf.</h2>
-    </div>
-    <div class="shelf-grid">
-      <div>
-        <div class="ex-row">
-          <span class="ex hi">Car models</span>
-          <span class="ex hi">Ship models</span>
-          <span class="ex hi">Plane models</span>
-          <span class="ex">Figurines</span>
-          <span class="ex">Anime &amp; game figures</span>
-          <span class="ex">Dioramas</span>
-          <span class="ex">Kit builds &amp; prints</span>
-        </div>
-      <div class="show-visual">
-        <span class="viz-tag">Proof &middot; hull &middot; computed wake</span>
-        <canvas id="fluid-proof"></canvas>
-        <canvas id="overlay-proof"></canvas>
-        <div class="viz-foot">
-          <span><span class="k">water</span> 5.2 m/s</span>
-          <span><span class="k">wake</span> shedding</span>
-          <span><span class="k">take</span> 042</span>
-        </div>
-      </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="pricing">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num">04 &mdash; PRICING</span>
+      <span class="sec-num">03 &mdash; PRICING</span>
       <h2>Pay per take, or pay for the season.</h2>
-      <p>Beta pricing &mdash; cards are not charged yet.</p>
+      <p>Beta pricing &mdash; nothing is charged while we&rsquo;re in beta.</p>
     </div>
     <div class="prices">
 
@@ -404,7 +380,7 @@
         <div class="price-per">forever</div>
         <ul>
           <li>720p looping video</li>
-          <li>Small Wakefield watermark</li>
+          <li>Small Wake watermark</li>
           <li>Air or water</li>
           <li>Ready to post as-is</li>
         </ul>
@@ -459,7 +435,7 @@
 
 <section class="final" id="join">
   <div class="wrap">
-    <span class="sec-num" style="text-align:center">05 &mdash; JOIN THE BETA</span>
+    <span class="sec-num" style="text-align:center">04 &mdash; JOIN THE BETA</span>
     <h2>Your model is standing still.</h2>
     <p class="sub">Send us the model you already own &mdash; we run it through real wind or water and send back the film. <b>Free during beta, first 100 takes.</b></p>
 
@@ -486,7 +462,7 @@
 
 <footer>
   <div class="wrap foot-in">
-    <p>WAKEFIELD &mdash; AIR &amp; WATER, MADE VISIBLE</p>
+    <p>WAKE &mdash; AIR &amp; WATER, MADE VISIBLE</p>
     <p>PRIVATE BETA &middot; 2026</p>
     <p class="credit">Demo vehicles: Ferrari 458 Italia by <a href="https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6" target="_blank" rel="noopener noreferrer">vicent091036</a>, via <a href="https://threejs.org/examples/webgl_materials_car.html" target="_blank" rel="noopener noreferrer">three.js</a> &middot; Sail Ship by <a href="https://quaternius.com" target="_blank" rel="noopener noreferrer">Quaternius</a>, public domain (CC0) &middot; Regional jet by <a href="https://www.innerscene.com/tools/library/3d-parts/regional-jet-aircraft-ae1f8f3d" target="_blank" rel="noopener noreferrer">Innerscene</a>, CC0.</p>
   </div>
@@ -520,19 +496,6 @@
         dyeResolution: DYE_RES,
         pressureIterations: PRESSURE,
         interactive: true
-      });
-    }
-    var pc = document.getElementById('fluid-proof');
-    if (pc) {
-      proof = window.WakefieldFluid.create({
-        canvas: pc,
-        overlay: document.getElementById('overlay-proof'),
-        scene: 'hull',
-        shipSrc: 'assets/sailship-body.png',
-        simResolution: SIM_RES,
-        dyeResolution: Math.round(DYE_RES * 0.75),
-        pressureIterations: PRESSURE,
-        interactive: false
       });
     }
   }
