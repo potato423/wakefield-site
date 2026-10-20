@@ -3,48 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wakefield — Give it wind</title>
-<meta name="description" content="Upload any 3D model, pick a breeze, and watch it move — hair, cloth, ribbon, anything the wind can reach.">
+<title>Wakefield — Give it wind. Give it water.</title>
+<meta name="description" content="Upload any 3D model, pick air or water, and watch it move — hair in the breeze, a bow wave off the stem, spray over the deck.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#07090d;
-    --bg-2:#0b0f16;
-    --panel:#0d1219;
-    --line:rgba(255,255,255,.08);
-    --line-2:rgba(255,255,255,.14);
-    --text:#e8eef6;
-    --muted:#8b98a8;
-    --dim:#5c6774;
-    --teal:#5eead4;
-    --sky:#38bdf8;
-    --violet:#a78bfa;
+    --bg:#07090d; --bg-2:#0b0f16; --panel:#0d1219;
+    --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+    --text:#e8eef6; --muted:#8b98a8; --dim:#5c6774;
+    --teal:#5eead4; --sky:#38bdf8; --violet:#a78bfa;
     --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    background:var(--bg);color:var(--text);
-    font-family:var(--sans);
-    -webkit-font-smoothing:antialiased;
-    line-height:1.5;overflow-x:hidden;
-  }
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
   ::selection{background:rgba(94,234,212,.25)}
   .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
 
-  /* ---------- nav ---------- */
-  nav{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    backdrop-filter:blur(14px);background:rgba(7,9,13,.72);
-    border-bottom:1px solid var(--line);
-  }
-  .nav-in{
-    max-width:1160px;margin:0 auto;padding:0 28px;height:64px;
-    display:flex;align-items:center;justify-content:space-between;
-  }
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(14px);background:rgba(7,9,13,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1160px;margin:0 auto;padding:0 28px;height:64px;
+    display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
   .brand svg{display:block}
   .brand b{font-weight:600;font-size:15px;letter-spacing:.14em}
@@ -52,133 +36,102 @@
   .nav-links{display:flex;align-items:center;gap:30px}
   .nav-links a{color:var(--muted);text-decoration:none;font-size:13.5px;transition:color .2s}
   .nav-links a:hover{color:var(--text)}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    font-family:var(--sans);font-size:13.5px;font-weight:500;
-    padding:10px 18px;border-radius:8px;border:1px solid var(--line-2);
-    background:rgba(255,255,255,.04);color:var(--text);
-    text-decoration:none;cursor:pointer;
-    transition:background .2s,border-color .2s,transform .15s;
-  }
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--sans);font-size:13.5px;font-weight:500;padding:10px 18px;border-radius:8px;
+    border:1px solid var(--line-2);background:rgba(255,255,255,.04);color:var(--text);
+    text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s,transform .15s}
   .btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
   .btn:active{transform:translateY(1px)}
-  .btn-primary{
-    background:linear-gradient(135deg,rgba(94,234,212,.16),rgba(56,189,248,.16));
-    border-color:rgba(94,234,212,.35);color:#d6fff6;
-  }
-  .btn-primary:hover{
-    background:linear-gradient(135deg,rgba(94,234,212,.26),rgba(56,189,248,.26));
-    border-color:rgba(94,234,212,.55);
-    box-shadow:0 0 24px -6px rgba(94,234,212,.4);
-  }
+  .btn-primary{background:linear-gradient(135deg,rgba(94,234,212,.16),rgba(56,189,248,.16));
+    border-color:rgba(94,234,212,.35);color:#d6fff6}
+  .btn-primary:hover{background:linear-gradient(135deg,rgba(94,234,212,.26),rgba(56,189,248,.26));
+    border-color:rgba(94,234,212,.55);box-shadow:0 0 24px -6px rgba(94,234,212,.4)}
   .btn-nav{padding:8px 15px;font-size:13px}
 
-  /* ---------- hero ---------- */
-  .hero{
-    position:relative;padding:150px 0 90px;
-    background:
-      radial-gradient(900px 480px at 78% 18%,rgba(56,189,248,.09),transparent 65%),
-      radial-gradient(700px 420px at 12% 82%,rgba(167,139,250,.07),transparent 65%),
-      var(--bg);
-  }
+  .hero{position:relative;padding:150px 0 90px;
+    background:radial-gradient(900px 480px at 78% 18%,rgba(56,189,248,.09),transparent 65%),
+      radial-gradient(700px 420px at 12% 82%,rgba(167,139,250,.07),transparent 65%),var(--bg)}
   .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:9px;
-    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--teal);border:1px solid rgba(94,234,212,.28);
-    background:rgba(94,234,212,.06);
-    padding:6px 13px;border-radius:100px;margin-bottom:26px;
-  }
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(94,234,212,.28);
+    background:rgba(94,234,212,.06);padding:6px 13px;border-radius:100px;margin-bottom:26px}
   .dot{width:5px;height:5px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
-  h1{
-    font-size:clamp(2.6rem,5vw,4.1rem);
-    font-weight:600;line-height:1.04;letter-spacing:-.03em;margin-bottom:22px;
-  }
-  h1 em{
-    font-style:normal;
-    background:linear-gradient(100deg,var(--teal),var(--sky) 45%,var(--violet));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .sub{
-    font-size:clamp(1rem,1.35vw,1.14rem);color:var(--muted);
-    max-width:520px;margin-bottom:34px;line-height:1.62;
-  }
+  h1{font-size:clamp(2.4rem,4.6vw,3.8rem);font-weight:600;line-height:1.08;letter-spacing:-.03em;margin-bottom:22px}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--teal),var(--sky) 45%,var(--violet));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:clamp(1rem,1.35vw,1.14rem);color:var(--muted);max-width:540px;margin-bottom:34px;line-height:1.62}
   .sub b{color:var(--text);font-weight:500}
 
-  /* ---------- form ---------- */
   .form{display:flex;gap:10px;max-width:440px;flex-wrap:wrap}
   .field{flex:1;min-width:230px;position:relative}
-  .field input{
-    width:100%;font-family:var(--sans);font-size:14px;color:var(--text);
-    background:var(--panel);border:1px solid var(--line-2);border-radius:8px;
-    padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s;
-  }
+  .field input{width:100%;font-family:var(--sans);font-size:14px;color:var(--text);
+    background:var(--panel);border:1px solid var(--line-2);border-radius:8px;padding:12px 14px;outline:none;
+    transition:border-color .2s,box-shadow .2s}
   .field input::placeholder{color:var(--dim)}
   .field input:focus{border-color:rgba(94,234,212,.5);box-shadow:0 0 0 3px rgba(94,234,212,.1)}
   .form-note{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:14px;letter-spacing:.04em}
   .form-msg{display:none;margin-top:14px;font-size:13.5px;padding:11px 14px;border-radius:8px}
   .form-msg.ok{display:block;color:#a7f3d0;background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.25)}
   .form-msg.err{display:block;color:#fca5a5;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25)}
+  .form-beta{display:grid;grid-template-columns:1.25fr 1.45fr .95fr auto;gap:10px;max-width:800px}
+  .form-beta .field{min-width:0}
+  .form-beta select{width:100%;font-family:var(--sans);font-size:14px;color:var(--text);
+    background:var(--panel);border:1px solid var(--line-2);border-radius:8px;padding:12px 34px 12px 14px;outline:none;
+    transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%238b98a8' stroke-width='1.5' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 13px center}
+  .form-beta select:focus{border-color:rgba(94,234,212,.5);box-shadow:0 0 0 3px rgba(94,234,212,.1)}
+  .form-beta select option{background:var(--panel);color:var(--text)}
 
-  /* ---------- hero visual ---------- */
-  .hero-visual{
-    position:relative;border-radius:16px;overflow:hidden;
-    border:1px solid var(--line);
-    background:linear-gradient(180deg,#0a0e14,#070a0f);
-    aspect-ratio:1/.94;
-  }
+  .hero-visual{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(180deg,#0a0e14,#070a0f);aspect-ratio:1/.94}
   .hero-visual svg{display:block;width:100%;height:100%}
-  .viz-tag{
-    position:absolute;left:14px;top:14px;z-index:3;
-    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--muted);background:rgba(7,9,13,.7);border:1px solid var(--line);
-    padding:5px 10px;border-radius:6px;backdrop-filter:blur(6px);
-  }
-  .viz-foot{
-    position:absolute;left:14px;right:14px;bottom:14px;z-index:3;
-    display:flex;justify-content:space-between;align-items:flex-end;
-    font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em;
-    pointer-events:none;
-  }
+  .hero-visual canvas,#fluid-proof,#overlay-proof{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #fluid{touch-action:pan-y}
+  #overlay,#overlay-proof{pointer-events:none}
+  .show-visual{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(180deg,#071018,#04080d);aspect-ratio:440/320}
+  .viz-tag{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--mono);font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:rgba(7,9,13,.7);
+    border:1px solid var(--line);padding:5px 10px;border-radius:6px;backdrop-filter:blur(6px)}
+  .viz-foot{position:absolute;left:14px;right:14px;bottom:14px;z-index:3;display:flex;
+    justify-content:space-between;align-items:flex-end;gap:4px 14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em;pointer-events:none}
   .viz-foot .k{color:var(--muted)}
+  .tabs{position:absolute;right:14px;top:14px;z-index:4;display:flex;gap:4px;
+    background:rgba(7,9,13,.75);border:1px solid var(--line);padding:3px;border-radius:8px;backdrop-filter:blur(6px)}
+  .tab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--dim);background:transparent;border:0;cursor:pointer;padding:5px 11px;border-radius:6px;
+    transition:color .2s,background .2s}
+  .tab:hover{color:var(--muted)}
+  .tab.on{background:rgba(94,234,212,.12);color:var(--teal);box-shadow:inset 0 0 0 1px rgba(94,234,212,.28)}
+  .scene{display:none}
+  .scene.on{display:block}
 
-  /* ---------- sections ---------- */
   section{padding:88px 0}
-  .sec-head{margin-bottom:52px;max-width:640px}
-  .sec-num{
-    font-family:var(--mono);font-size:11px;color:var(--teal);
-    letter-spacing:.2em;display:block;margin-bottom:14px;
-  }
+  .sec-head{margin-bottom:52px;max-width:660px}
+  .sec-num{font-family:var(--mono);font-size:11px;color:var(--teal);letter-spacing:.2em;display:block;margin-bottom:14px}
   h2{font-size:clamp(1.6rem,2.6vw,2.15rem);font-weight:600;letter-spacing:-.02em;line-height:1.18}
   .sec-head p{color:var(--muted);margin-top:14px;font-size:15.5px;line-height:1.65}
 
-  .how{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .how,.flows,.why{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .step{
-    background:var(--panel);border:1px solid var(--line);border-radius:14px;
-    padding:28px 26px 26px;position:relative;overflow:hidden;transition:border-color .25s;
-  }
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 26px 26px;
+    position:relative;overflow:hidden;transition:border-color .25s}
   .step:hover{border-color:var(--line-2)}
-  .step::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:1px;
-    background:linear-gradient(90deg,transparent,rgba(94,234,212,.5),transparent);
-    opacity:0;transition:opacity .25s;
-  }
+  .step::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(94,234,212,.5),transparent);opacity:0;transition:opacity .25s}
   .step:hover::before{opacity:1}
   .step-n{font-family:var(--mono);font-size:11px;color:var(--teal);letter-spacing:.16em;display:block;margin-bottom:18px}
   .step h3{font-size:17px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
   .step p{color:var(--muted);font-size:14px;line-height:1.62}
-  .step p code{
-    font-family:var(--mono);font-size:12px;color:var(--sky);
-    background:rgba(56,189,248,.08);padding:2px 6px;border-radius:5px;
-  }
+  .step p code{font-family:var(--mono);font-size:12px;color:var(--sky);
+    background:rgba(56,189,248,.08);padding:2px 6px;border-radius:5px}
+
 
   .outs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .out{
-    border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    background:var(--panel);display:flex;flex-direction:column;
-    transition:border-color .25s,transform .25s;
-  }
+  .out{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);
+    display:flex;flex-direction:column;transition:border-color .25s,transform .25s}
   .out:hover{border-color:var(--line-2);transform:translateY(-3px)}
   .out-img{height:150px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
   .out-img svg{position:absolute;inset:0;width:100%;height:100%}
@@ -186,40 +139,37 @@
   .out-body h3{font-size:15.5px;font-weight:600;margin-bottom:9px;letter-spacing:.01em}
   .out-body p{color:var(--muted);font-size:13.5px;line-height:1.6}
 
-  .why{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .whys{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-  .why-item{padding:32px 28px;border-right:1px solid var(--line);background:var(--panel)}
-  .why-item:last-child{border-right:none}
-  .why-ico{
-    width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
-    background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.2);margin-bottom:18px;
-  }
-  .why-item h3{font-size:15.5px;font-weight:600;margin-bottom:9px}
-  .why-item p{color:var(--muted);font-size:13.5px;line-height:1.62}
-
-  .show-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:48px;align-items:center}
-  .show-visual{
-    position:relative;border-radius:16px;overflow:hidden;
-    border:1px solid var(--line);
-    background:linear-gradient(180deg,#0a0e14,#070a0f);
-    aspect-ratio:11/8;
-  }
+  .shelf-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:48px;align-items:center}
+  .ex-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .ex{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);
+    border-radius:100px;padding:8px 16px;background:var(--panel);transition:color .2s,border-color .2s}
+  .ex:hover{color:var(--teal);border-color:rgba(94,234,212,.35)}
+  .ex.hi{color:var(--teal);border-color:rgba(94,234,212,.35);background:rgba(94,234,212,.06)}
+  .show-visual{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(180deg,#0a0e14,#070a0f);aspect-ratio:11/8}
   .show-visual svg{display:block;width:100%;height:100%}
 
-  .ex-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
-  .ex{
-    font-family:var(--mono);font-size:12px;color:var(--muted);
-    border:1px solid var(--line);border-radius:100px;padding:8px 16px;
-    background:var(--panel);transition:color .2s,border-color .2s;
-  }
-  .ex:hover{color:var(--teal);border-color:rgba(94,234,212,.35)}
-  .ex-note{margin-top:26px;color:var(--dim);font-size:14px;line-height:1.7;max-width:600px}
-  .ex-note b{color:var(--muted);font-weight:500}
+  .prices{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .price{border:1px solid var(--line);border-radius:14px;padding:26px 24px;background:var(--panel);
+    display:flex;flex-direction:column;transition:border-color .25s,transform .25s}
+  .price:hover{border-color:var(--line-2);transform:translateY(-3px)}
+  .price.feat{border-color:rgba(94,234,212,.4);
+    background:linear-gradient(180deg,rgba(94,234,212,.06),var(--panel))}
+  .price-name{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--teal);margin-bottom:16px}
+  .price-val{font-size:2.1rem;font-weight:600;letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+  .price-val span{font-size:13px;font-weight:400;color:var(--dim);letter-spacing:0}
+  .price-per{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:18px}
+  .price ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:22px;flex:1}
+  .price ul li{font-size:13px;color:var(--muted);line-height:1.5;padding-left:18px;position:relative}
+  .price ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;
+    border-radius:50%;background:rgba(94,234,212,.55)}
+  .price .btn{width:100%}
+  .price-note{margin-top:22px;font-family:var(--mono);font-size:11.5px;color:var(--dim);
+    text-align:center;letter-spacing:.04em;line-height:1.7}
 
-  .final{
-    text-align:center;position:relative;overflow:hidden;
-    background:radial-gradient(700px 340px at 50% 100%,rgba(94,234,212,.1),transparent 70%),var(--bg);
-  }
+  .final{text-align:center;position:relative;overflow:hidden;
+    background:radial-gradient(700px 340px at 50% 100%,rgba(94,234,212,.1),transparent 70%),var(--bg)}
   .final h2{margin-bottom:16px}
   .final .sub{margin:0 auto 34px;text-align:center}
   .final .form{margin:0 auto}
@@ -229,31 +179,32 @@
   footer{border-top:1px solid var(--line);padding:30px 0;background:var(--bg)}
   .foot-in{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
   .foot-in p{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em}
+  .foot-in .credit{flex-basis:100%;font-size:10px;color:var(--dim);opacity:.75}
 
-  /* ---------- proof strip ---------- */
   .proof{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
   .proof-in{display:flex;gap:0;flex-wrap:wrap}
   .proof-stat{flex:1;min-width:230px;padding:34px 30px;border-right:1px solid var(--line)}
   .proof-stat:last-child{border-right:none}
-  .proof-stat b{
-    display:block;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:600;letter-spacing:-.02em;
+  .proof-stat b{display:block;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:600;letter-spacing:-.02em;
     background:linear-gradient(100deg,var(--teal),var(--sky) 55%,var(--violet));
-    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px;
-  }
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
   .proof-stat span{display:block;color:var(--muted);font-size:13.5px;line-height:1.6;max-width:270px}
 
+  @media (max-width:1000px){.prices{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:900px){
     .hero{padding:120px 0 70px}
     .hero-grid{grid-template-columns:1fr;gap:40px}
     .hero-visual{aspect-ratio:1/.8;order:-1}
-    .steps,.outs,.whys{grid-template-columns:1fr}
-    .why-item{border-right:none;border-bottom:1px solid var(--line)}
-    .why-item:last-child{border-bottom:none}
+    .steps,.outs{grid-template-columns:1fr}
+    .shelf-grid{grid-template-columns:1fr}
+    .form-beta{grid-template-columns:1fr 1fr}
+    .form-beta button{grid-column:1/-1}
     .proof-stat{border-right:none;border-bottom:1px solid var(--line)}
     .proof-stat:last-child{border-bottom:none}
     .nav-links a:not(.btn){display:none}
     section{padding:64px 0}
   }
+  @media (max-width:560px){.prices{grid-template-columns:1fr}.form-beta{grid-template-columns:1fr}}
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
     html{scroll-behavior:auto}
@@ -270,12 +221,12 @@
         <path d="M2 13c2.2 0 2.2-3 4.6-3S8.8 13 11 13s2.2-3 4.6-3S18 13 20 13" stroke="#38bdf8" stroke-width="1.3" stroke-linecap="round" opacity=".65"/>
       </svg>
       <b>WAKEFIELD</b>
-      <span>wind · made visible</span>
+      <span>air &middot; water</span>
     </a>
     <div class="nav-links">
-      <a href="#how">How it works</a>
+      <a href="#how">How</a>
       <a href="#outputs">Output</a>
-      <a href="#why">Why</a>
+      <a href="#pricing">Pricing</a>
       <a class="btn btn-primary btn-nav" href="#join">Join the beta</a>
     </div>
   </div>
@@ -284,73 +235,64 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow"><span class="dot"></span>Private beta · now onboarding</div>
-      <h1>Give it <em>wind.</em></h1>
+      <div class="eyebrow"><span class="dot"></span>For car &amp; ship model makers</div>
+      <h1>Give it <em>wind.</em><br>Give it <em>water.</em></h1>
       <p class="sub">
-        Your figure. Your print. Your character. Upload the 3D model you already own,
-        pick a breeze, and watch it come alive — <b>hair, cloth, ribbon, whatever the
-        wind can reach.</b> Take the video.
+        Upload the 3D model you already own &mdash; <b>STL, OBJ or GLB.</b>
+        We run it through a real Navier&ndash;Stokes solver, the same physics a wind tunnel uses,
+        and send back the film: <b>smoke off the canopy, a bow wave off the stem, spray over the deck.</b>
+        No rigging, no baking &mdash; about a minute.
       </p>
 
       <form class="form" id="form-hero" novalidate>
         <div class="field">
           <input type="email" name="email" placeholder="you@studio.com" autocomplete="email" required>
         </div>
-        <button type="submit" class="btn btn-primary">Request access</button>
+        <button type="submit" class="btn btn-primary">Join the beta</button>
       </form>
       <div class="form-msg" id="msg-hero"></div>
-      <p class="form-note">No spam. One email when your first gust opens up.</p>
     </div>
 
     <div class="hero-visual">
-      <span class="viz-tag">Live · figurine.glb · gust</span>
-      <svg id="scene" viewBox="0 0 420 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A figurine standing in the wind, hair and cloak moving">
-        <defs>
-          <linearGradient id="hairGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#5eead4"/>
-            <stop offset=".5" stop-color="#38bdf8"/>
-            <stop offset="1" stop-color="#a78bfa"/>
-          </linearGradient>
-          <linearGradient id="capeGrad" x1="1" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#a78bfa" stop-opacity=".85"/>
-            <stop offset="1" stop-color="#38bdf8" stop-opacity=".25"/>
-          </linearGradient>
-        </defs>
+      <span class="viz-tag" id="viz-tag">Live &middot; ferrari-458.glb &middot; wind tunnel</span>
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-scene="car" role="tab">Coupe</button>
+        <button class="tab" data-scene="hull" role="tab">Hull</button>
+      </div>
 
-        <g id="wind" fill="none" stroke-linecap="round"></g>
-        <path id="cape" fill="none" stroke="url(#capeGrad)" stroke-width="2" stroke-linecap="round"/>
+      <canvas id="fluid"></canvas>
+      <canvas id="overlay"></canvas>
 
-        <g id="figure" fill="none" stroke="rgba(232,238,246,.55)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="200" cy="112" r="26"/>
-          <path d="M200 138 L200 152"/>
-          <path d="M176 160 C 184 151 216 151 224 160 L 230 244 C 230 266 217 276 200 276 C 183 276 170 266 170 244 Z"/>
-          <path d="M176 164 L 154 216 L 166 240"/>
-          <path d="M224 164 L 246 214"/>
-          <path d="M189 276 L 184 352"/>
-          <path d="M211 276 L 216 352"/>
-          <path d="M174 352 L 194 352"/>
-          <path d="M206 352 L 226 352"/>
-        </g>
-
-        <g id="hair" fill="none" stroke="url(#hairGrad)" stroke-linecap="round"></g>
-        <path id="ribbon" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>
-        <g id="dust" fill="none"></g>
-      </svg>
       <div class="viz-foot">
-        <span><span class="k">wind</span> &larr; 6 m/s</span>
-        <span><span class="k">gust</span> on</span>
-        <span><span class="k">loop</span> 4s</span>
+        <span id="foot-1"><span class="k">wind</span> 6.6 m/s</span>
+        <span id="foot-2"><span class="k">model</span> ferrari 458</span>
+        <span id="foot-3"><span class="k">solver</span> navier-stokes</span>
       </div>
     </div>
-  </div>
 </header>
+
+<section class="proof">
+  <div class="wrap proof-in">
+    <div class="proof-stat">
+      <b>$269k</b>
+      <span>raised by a desktop wind tunnel for diecast cars &mdash; 1,315 backers paying to see their model in a flow.</span>
+    </div>
+    <div class="proof-stat">
+      <b>$79</b>
+      <span>the water addon Blender artists buy &mdash; then spend an evening baking each splash by hand.</span>
+    </div>
+    <div class="proof-stat">
+      <b>Air + water</b>
+      <span>both fluids on one upload. Nothing has made the wake behind a hull easy yet.</span>
+    </div>
+  </div>
+</section>
 
 <section class="how" id="how">
   <div class="wrap">
     <div class="sec-head">
       <span class="sec-num">01 &mdash; HOW IT WORKS</span>
-      <h2>Three steps. No rigging, no simulation.</h2>
-      <p>You do not need to know how cloth works. You need a shape.</p>
+      <h2>Three steps. No rigging, no baking.</h2>
     </div>
     <div class="steps">
       <div class="step">
@@ -360,8 +302,8 @@
       </div>
       <div class="step">
         <span class="step-n">STEP 02</span>
-        <h3>Pick the wind</h3>
-        <p>A breeze, a gust, a gale. Set direction and strength &mdash; or just say what you want in words.</p>
+        <h3>Pick the flow</h3>
+        <p>Air or water. Direction, strength &mdash; and for water: wave height, spray, and the wake.</p>
       </div>
       <div class="step">
         <span class="step-n">STEP 03</span>
@@ -376,8 +318,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="sec-num">02 &mdash; WHAT YOU GET</span>
-      <h2>One gust, three things worth having.</h2>
-      <p>The motion is the point. Everything else is there so you can use it.</p>
+      <h2>One flow, three things worth having.</h2>
     </div>
     <div class="outs">
 
@@ -450,494 +391,238 @@
   </div>
 </section>
 
-<section class="why" id="why">
+<section id="shelf">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num">03 &mdash; WHY IT MOVES LIKE THAT</span>
-      <h2>Three things that make it feel alive.</h2>
+      <span class="sec-num">03 &mdash; WHAT PEOPLE RUN</span>
+      <h2>Anything you already own.</h2>
     </div>
-    <div class="whys">
-      <div class="why-item">
-        <div class="why-ico">
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="#5eead4" stroke-width="1.4" stroke-linecap="round">
-            <path d="M8.5 1.5 L8.5 4.5 M8.5 12.5 L8.5 15.5 M1.5 8.5 L4.5 8.5 M12.5 8.5 L15.5 8.5"/>
-            <path d="M8.5 5.5 a3 3 0 100 6 3 3 0 000-6z"/>
-            <path d="M4 4 L5.5 5.5 M13 4 L11.5 5.5" opacity=".5"/>
-          </svg>
-        </div>
-        <h3>It knows what should move</h3>
-        <p>Hair, cloth, ribbon, foliage &mdash; detected from the geometry itself. No rigging, no weight painting, no bones.</p>
-      </div>
-      <div class="why-item">
-        <div class="why-ico">
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="#5eead4" stroke-width="1.4" stroke-linecap="round">
-            <path d="M1.5 6.5 h9 a2.5 2.5 0 10 -2.5 -2.5"/>
-            <path d="M1.5 10.5 h11 a2.5 2.5 0 110 2.5" opacity=".6"/>
-          </svg>
-        </div>
-        <h3>Real wind, not an AI filter</h3>
-        <p>It's your actual model reacting to a real wind field &mdash; not an app pasting a canned dance onto a photo. Every take is different, and none of them loop obviously.</p>
-      </div>
-      <div class="why-item">
-        <div class="why-ico">
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="#5eead4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 1.5 L4 9.5 L7.5 9.5 L6.5 15.5 L13 7 L9.5 7 L10.5 1.5 Z"/>
-          </svg>
-        </div>
-        <h3>Seconds, not hours</h3>
-        <p>What takes an evening of force fields and cache bakes in Blender takes about a minute here.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="proof">
-  <div class="wrap proof-in">
-    <div class="proof-stat">
-      <b>136</b>
-      <span>makers have already 3D-printed a single "wind-blown" figure by hand, just to fake the feeling.</span>
-    </div>
-    <div class="proof-stat">
-      <b>$269k</b>
-      <span>a desktop wind-tunnel for diecast cars raised from 1,315 backers &mdash; people pay to see their model in wind.</span>
-    </div>
-    <div class="proof-stat">
-      <b>28B+</b>
-      <span>annual views on collectible unboxing &amp; mod videos. The audience is already watching.</span>
-    </div>
-  </div>
-</section>
-
-<section id="examples">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num">04 &mdash; FROM YOUR SHELF TO THE WIND</span>
-      <h2>Start with the figure on your desk.</h2>
-      <p>The figurines and prints you already own are the first thing most people try. The wind works out what should move &mdash; and what should hold still. Below: the same wind on a car, computed, not drawn &mdash; your proof it's real physics, not a filter.</p>
-    </div>
-    <div class="show-grid">
+    <div class="shelf-grid">
       <div>
         <div class="ex-row">
           <span class="ex">Figurines</span>
           <span class="ex">Anime &amp; game prints</span>
           <span class="ex">Collectibles</span>
+          <span class="ex hi">Ship models</span>
+          <span class="ex">Cars &amp; diecast</span>
           <span class="ex">Dioramas</span>
-          <span class="ex">Characters</span>
-          <span class="ex">Cars &amp; models</span>
           <span class="ex">Anything you've printed</span>
         </div>
-        <p class="ex-note">
-          Every figure you own is a frozen moment. People already sculpt "wind-blown" poses
-          by hand just to fake the feeling &mdash; <b>we compute the wind on your exact model instead.</b>
-        </p>
-      </div>
       <div class="show-visual">
-        <span class="viz-tag">Proof &middot; coupe.stl &middot; computed flow</span>
-        <svg id="carscene" viewBox="0 0 440 320" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A coupe standing in wind: streamlines flow over the roof and under the floor, a small flag streams from the tail">
-          <defs>
-            <linearGradient id="flagGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#a78bfa" stop-opacity=".9"/>
-              <stop offset="1" stop-color="#38bdf8" stop-opacity=".2"/>
-            </linearGradient>
-            <radialGradient id="carGlow" cx=".5" cy=".5" r=".62">
-              <stop offset="0" stop-color="#38bdf8" stop-opacity=".10"/>
-              <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect x="0" y="0" width="440" height="320" fill="url(#carGlow)"/>
-          <ellipse cx="215" cy="259" rx="175" ry="9" fill="rgba(0,0,0,.35)"/>
-          <g id="field" fill="none" stroke-linecap="round"></g>
-          <g id="dots"></g>
-          <g fill="none" stroke="rgba(232,238,246,.72)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M74 220 C76 206 86 196 102 192 C126 186 146 182 164 178 L192 154 C202 147 216 145 228 148 L256 170 C282 176 306 178 330 180 L352 184 L358 212 C352 222 342 226 328 228 L250 232 L160 232 C132 232 104 230 84 226 Z"/>
-            <path d="M200 157 L228 152 L252 169 L212 171 Z" fill="rgba(56,189,248,.10)" stroke="rgba(56,189,248,.45)" stroke-width="1"/>
-            <path d="M84 224 L96 218" opacity=".5"/>
-            <path d="M340 226 L354 220" opacity=".5"/>
-          </g>
-          <g fill="none" stroke="rgba(232,238,246,.5)" stroke-width="1.4">
-            <circle cx="126" cy="230" r="21"/>
-            <circle cx="126" cy="230" r="7" stroke="rgba(94,234,212,.55)"/>
-            <path d="M126 209 L126 251 M105 230 L147 230 M112 216 L140 244 M140 216 L112 244" opacity=".55"/>
-            <circle cx="292" cy="230" r="21"/>
-            <circle cx="292" cy="230" r="7" stroke="rgba(94,234,212,.55)"/>
-            <path d="M292 209 L292 251 M271 230 L313 230 M278 216 L306 244 M306 216 L278 244" opacity=".55"/>
-          </g>
-          <path d="M350 185 L346 150" stroke="rgba(232,238,246,.55)" stroke-width="1.3" stroke-linecap="round"/>
-          <path id="flag" fill="url(#flagGrad)" stroke="rgba(167,139,250,.45)" stroke-width="1"/>
-        </svg>
+        <span class="viz-tag">Proof &middot; hull &middot; computed wake</span>
+        <canvas id="fluid-proof"></canvas>
+        <canvas id="overlay-proof"></canvas>
         <div class="viz-foot">
-          <span><span class="k">wind</span> &larr; 6 m/s</span>
-          <span><span class="k">wake</span> trailing</span>
+          <span><span class="k">water</span> 5.2 m/s</span>
+          <span><span class="k">wake</span> shedding</span>
           <span><span class="k">take</span> 042</span>
         </div>
+      </div>
       </div>
     </div>
   </div>
 </section>
 
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">04 &mdash; PRICING</span>
+      <h2>Pay per take, or pay for the season.</h2>
+      <p>Beta pricing &mdash; cards are not charged yet.</p>
+    </div>
+    <div class="prices">
+
+      <div class="price">
+        <div class="price-name">Free</div>
+        <div class="price-val">$0</div>
+        <div class="price-per">forever</div>
+        <ul>
+          <li>720p looping video</li>
+          <li>Small Wakefield watermark</li>
+          <li>Air or water</li>
+          <li>Ready to post as-is</li>
+        </ul>
+        <a class="btn" href="#join">Start free</a>
+      </div>
+
+      <div class="price feat">
+        <div class="price-name">Single take</div>
+        <div class="price-val">$4</div>
+        <div class="price-per">one render</div>
+        <ul>
+          <li>1080p, no watermark</li>
+          <li>Film + stills</li>
+          <li>Air or water</li>
+          <li>Commercial use on your own model</li>
+        </ul>
+        <a class="btn btn-primary" href="#join">Get a take</a>
+      </div>
+
+      <div class="price">
+        <div class="price-name">Pack</div>
+        <div class="price-val">$15</div>
+        <div class="price-per">5 takes</div>
+        <ul>
+          <li>1080p, no watermark</li>
+          <li>GLB / FBX motion included</li>
+          <li>Keeps for 12 months</li>
+          <li>Best if you post a series</li>
+        </ul>
+        <a class="btn" href="#join">Get the pack</a>
+      </div>
+
+      <div class="price">
+        <div class="price-name">Creator</div>
+        <div class="price-val">$29<span>/mo</span></div>
+        <div class="price-per">for heavy posters</div>
+        <ul>
+          <li>Unlimited 720p watermarked</li>
+          <li>40 HD takes a month</li>
+          <li>Priority queue</li>
+          <li>4K on request</li>
+        </ul>
+        <a class="btn" href="#join">Go creator</a>
+      </div>
+
+    </div>
+    <p class="price-note">
+      Free renders keep the watermark on purpose &mdash; your post is how the next maker finds this.
+    </p>
+  </div>
+</section>
+
 <section class="final" id="join">
   <div class="wrap">
-    <span class="sec-num" style="text-align:center">05 &mdash; JOIN</span>
+    <span class="sec-num" style="text-align:center">05 &mdash; JOIN THE BETA</span>
     <h2>Your model is standing still.</h2>
-    <p class="sub">Private beta is opening in waves. Leave an address and we'll send you the first gust.</p>
+    <p class="sub">Send us the model you already own &mdash; we run it through real wind or water and send back the film. <b>Free during beta, first 100 takes.</b></p>
 
-    <form class="form" id="form-final" novalidate>
+    <form class="form form-beta" id="form-final" novalidate>
       <div class="field">
         <input type="email" name="email" placeholder="you@studio.com" autocomplete="email" required>
       </div>
-      <button type="submit" class="btn btn-primary">Request access</button>
+      <div class="field">
+        <input type="text" name="model" placeholder="Your model &mdash; e.g. 1:18 diecast, figurine, ship">
+      </div>
+      <div class="field">
+        <select name="flow" aria-label="Air or water">
+          <option value="air">Air &mdash; wind tunnel</option>
+          <option value="water">Water &mdash; wake &amp; spray</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Claim a beta take</button>
     </form>
     <div class="form-msg" id="msg-final"></div>
-    <p class="form-note">No spam. One email when your first gust opens up.</p>
+    <p class="form-note">Free while in beta &middot; reply within 72h &middot; your model stays yours</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-in">
-    <p>WAKEFIELD &mdash; WIND, MADE VISIBLE</p>
+    <p>WAKEFIELD &mdash; AIR &amp; WATER, MADE VISIBLE</p>
     <p>PRIVATE BETA &middot; 2026</p>
+    <p class="credit">Demo vehicles: Ferrari 458 Italia by <a href="https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6" target="_blank" rel="noopener noreferrer">vicent091036</a>, via <a href="https://threejs.org/examples/webgl_materials_car.html" target="_blank" rel="noopener noreferrer">three.js</a> &middot; Sail Ship by <a href="https://quaternius.com" target="_blank" rel="noopener noreferrer">Quaternius</a>, public domain (CC0).</p>
   </div>
 </footer>
-
+<script src="wakefield-fluid.js"></script>
 <script>
 (function(){
-  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
   /* ============================================================
-     Wakefield landing — hero scene
-     A line-drawn figurine in wind: hair strands + cape advected by
-     a gusting analytic field, dust carried past, wind streaks that
-     part around the body. Pure SVG + JS, no dependencies.
+     Real fluid — GPU Navier-Stokes solver
      ============================================================ */
+  var MOBILE = window.matchMedia && window.matchMedia('(max-width:760px)').matches;
+  var SIM_RES   = MOBILE ? 128 : 176;
+  var DYE_RES   = MOBILE ? 384 : 704;
+  var PRESSURE  = MOBILE ? 18  : 26;
 
-  var SVGNS = 'http://www.w3.org/2000/svg';
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var carDraw = null;
-
-  var hairG = document.getElementById('hair');
-  var cape  = document.getElementById('cape');
-  var windG = document.getElementById('wind');
-  var dustG = document.getElementById('dust');
-  if(!hairG || !cape) return;
-
-  var CX = 200, HEAD_Y = 112;
-  var el = function(tag){ return document.createElementNS(SVGNS, tag); };
-
-  /* ---------- gust envelope ---------- */
-  function gust(t){
-    var a = Math.sin(t*0.00058);
-    var b = Math.sin(t*0.00021 + 1.7);
-    var c = Math.sin(t*0.00130 + 0.4);
-    return Math.max(0, 0.30 + 0.42*a + 0.30*b + 0.14*c);
-  }
-
-  /* ---------- smooth path through points ---------- */
-  function smooth(pts){
-    if(pts.length < 2) return '';
-    var d = 'M' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1);
-    for(var i=1;i<pts.length-1;i++){
-      var xc = (pts[i][0] + pts[i+1][0])/2;
-      var yc = (pts[i][1] + pts[i+1][1])/2;
-      d += 'Q' + pts[i][0].toFixed(1) + ',' + pts[i][1].toFixed(1) +
-           ' ' + xc.toFixed(1) + ',' + yc.toFixed(1);
+  var hero = null, proof = null;
+  if (window.WakefieldFluid) {
+    var fc = document.getElementById('fluid');
+    if (fc) {
+      hero = window.WakefieldFluid.create({
+        canvas: fc,
+        overlay: document.getElementById('overlay'),
+        scene: 'car',
+        spriteSrc: 'assets/ferrari-body.png',
+        shipSrc: 'assets/sailship-body.png',
+        simResolution: SIM_RES,
+        dyeResolution: DYE_RES,
+        pressureIterations: PRESSURE,
+        interactive: true
+      });
     }
-    var n = pts.length-1;
-    return d + 'L' + pts[n][0].toFixed(1) + ',' + pts[n][1].toFixed(1);
-  }
-
-  /* ---------- hair ---------- */
-  var HAIRS = [], HAIR_N = 9;
-  for(var h=0; h<HAIR_N; h++){
-    var f = h/(HAIR_N-1);
-    var p = el('path');
-    p.setAttribute('stroke-width', (1.6 + (h%2)*0.9).toFixed(1));
-    p.setAttribute('opacity', (0.35 + (1-Math.abs(f-0.5)*1.1)*0.6).toFixed(2));
-    hairG.appendChild(p);
-    HAIRS.push({
-      el:p,
-      rootX: 172 + f*56,
-      rootY: 96 + Math.sin(f*Math.PI)*10,
-      len:    150 + (h%3)*38,
-      drift:  26 + (h%4)*13,
-      seed:   h*1.7 + 0.6
-    });
-  }
-
-  function hairD(o, t, g){
-    var pts = [], n = 9;
-    for(var i=0;i<=n;i++){
-      var k = i/n;
-      var bx = o.rootX + o.drift*k;
-      var by = o.rootY + o.len*k;
-      var sway    = Math.sin(t*0.0021 + o.seed + k*2.4) * g * 34 * k;
-      var flutter = Math.sin(t*0.0074 + o.seed*2.1 + k*5.0) * g * 13 * k;
-      var lift    = -Math.abs(Math.sin(t*0.0029 + o.seed + k*1.8)) * g * 26 * k;
-      pts.push([bx + sway + flutter,
-                by + lift + Math.cos(t*0.0035 + k*2 + o.seed)*g*4*k]);
-    }
-    return smooth(pts);
-  }
-
-  /* ---------- wrist ribbon: the small thing that moves ---------- */
-  var ribbon = document.getElementById('ribbon');
-  function ribbonD(t, g){
-    var pts = [], n = 8, x0 = 248, y0 = 213, len = 92;
-    for(var i=0;i<=n;i++){
-      var k = i/n;
-      var y = y0 + k*16 + Math.sin(t*0.0034 + k*3.2)*g*9*k;
-      pts.push([x0 + len*k + Math.sin(t*0.0068 + k*4.6)*g*15*k, y]);
-    }
-    return smooth(pts);
-  }
-
-  /* ---------- cape ---------- */
-  var CAPE_OX = 176, CAPE_OY = 162, CAPE_L = 205;
-  function capeD(t, g){
-    var pts = [], n = 11;
-    for(var i=0;i<=n;i++){
-      var k = i/n;
-      var bx = CAPE_OX + CAPE_L*k*0.78;
-      var by = CAPE_OY + k*54 - k*k*26;
-      var wave = Math.sin(t*0.0026 + k*2.6) * g * 40 * k;
-      var flut = Math.sin(t*0.0081 + k*4.4) * g * 15 * k;
-      pts.push([bx, by + wave + flut]);
-    }
-    var d = smooth(pts);
-    var back = [];
-    for(var j=n;j>=0;j--){
-      var kk = j/n;
-      var bx2 = CAPE_OX + CAPE_L*kk*0.78;
-      var hem = 46 + Math.sin(t*0.0031 + kk*3.2)*g*22 + Math.sin(kk*9)*7;
-      back.push([bx2, CAPE_OY + kk*54 - kk*kk*26 + hem]);
-    }
-    d += ' L' + back.map(function(p){ return p[0].toFixed(1)+','+p[1].toFixed(1); }).join(' L') + ' Z';
-    return d;
-  }
-
-  /* ---------- wind streaks, parted around the figure ---------- */
-  var STREAKS = [];
-  var defs = [
-    {y: 52,  sp: .055, amp: 7, w: 1.2, o: .55},
-    {y: 88,  sp: .040, amp: 9, w: 1.0, o: .40},
-    {y: 196, sp: .062, amp: 6, w: 1.2, o: .45},
-    {y: 240, sp: .048, amp: 8, w: 1.0, o: .35},
-    {y: 300, sp: .070, amp: 6, w: 1.1, o: .30},
-    {y: 340, sp: .052, amp: 7, w: 1.0, o: .25}
-  ];
-  defs.forEach(function(s, i){
-    var p = el('path');
-    p.setAttribute('stroke', i%2 ? '#38bdf8' : '#5eead4');
-    p.setAttribute('stroke-width', s.w);
-    p.setAttribute('opacity', s.o);
-    p.setAttribute('stroke-linecap', 'round');
-    windG.appendChild(p);
-    STREAKS.push({el:p, y:s.y, sp:s.sp, amp:s.amp, ph:i*1.9});
-  });
-
-  var GAP_L = 158, GAP_R = 242;   // figure occupies this x-range; streaks break here
-  function streakD(s, t){
-    function run(x0, x1){
-      var pts = [], n = 6;
-      for(var i=0;i<=n;i++){
-        var x = x0 + (x1-x0)*i/n;
-        var y = s.y + Math.sin(x*0.018 + t*0.002 + s.ph)*s.amp;
-        pts.push([x, y]);
-      }
-      return smooth(pts);
-    }
-    var L = 118;
-    var x0 = -L + (t*s.sp) % 560;
-    var x1 = x0 + L;
-    var d = '';
-    if(x0 < GAP_L){                       // segment reaching the body from the left
-      d += run(x0, Math.min(x1, GAP_L));
-    }
-    if(x1 > GAP_R){                       // segment emerging past the body
-      d += (d ? ' M' : '') + run(GAP_R, Math.min(x1, 432));
-    }
-    return d;
-  }
-
-  /* ---------- dust ---------- */
-  var DUST = [], DUST_N = 22;
-  for(var d=0; d<DUST_N; d++){
-    var c = el('circle');
-    c.setAttribute('fill', d%3===0 ? '#a78bfa' : (d%3===1 ? '#5eead4' : '#38bdf8'));
-    c.setAttribute('r', (0.9 + (d%3)*0.5).toFixed(1));
-    dustG.appendChild(c);
-    DUST.push({el:c, x:Math.random()*420, y:Math.random()*420,
-               sp:0.5+Math.random()*1.3, ph:Math.random()*6.28});
-  }
-
-  var now0 = 0;
-  function dustStep(dt, g){
-    now0 += dt;
-    for(var i=0;i<DUST.length;i++){
-      var p = DUST[i];
-      p.x += (0.9 + g*2.6) * p.sp * dt * 0.06;
-      p.y += Math.sin(p.ph + now0*0.0016)*0.35 - 0.05;
-      var dx = p.x - CX, dy = p.y - HEAD_Y;
-      var dd = dx*dx + dy*dy;
-      if(dd < 78*78){
-        var dist = Math.sqrt(dd) || 1;
-        p.y += (dy/dist) * 1.6;
-        p.x += (dx/dist) * 0.5;
-      }
-      if(p.x > 430){ p.x = -20; p.y = Math.random()*420; }
-      if(p.y > 430) p.y = -10;
-      if(p.y < -10) p.y = 430;
-      p.el.setAttribute('cx', p.x.toFixed(1));
-      p.el.setAttribute('cy', p.y.toFixed(1));
-      p.el.setAttribute('opacity', (0.25 + g*0.5).toFixed(2));
+    var pc = document.getElementById('fluid-proof');
+    if (pc) {
+      proof = window.WakefieldFluid.create({
+        canvas: pc,
+        overlay: document.getElementById('overlay-proof'),
+        scene: 'hull',
+        shipSrc: 'assets/sailship-body.png',
+        simResolution: SIM_RES,
+        dyeResolution: Math.round(DYE_RES * 0.75),
+        pressureIterations: PRESSURE,
+        interactive: false
+      });
     }
   }
 
-  /* ---------- loop ---------- */
-  var last = performance.now(), t = 0;
-  function frame(now){
-    var dt = Math.min(now - last, 50); last = now; t += dt;
-    var g = gust(t);
-    for(var i=0;i<HAIRS.length;i++) HAIRS[i].el.setAttribute('d', hairD(HAIRS[i], t, g));
-    if(ribbon) ribbon.setAttribute('d', ribbonD(t, g));
-    cape.setAttribute('d', capeD(t, g));
-    for(var j=0;j<STREAKS.length;j++) STREAKS[j].el.setAttribute('d', streakD(STREAKS[j], t));
-    dustStep(dt, g);
-    if(carDraw) carDraw(t, g, dt);
-    requestAnimationFrame(frame);
-  }
-
-  var running = false;
-  document.addEventListener('visibilitychange', function(){
-    if(!document.hidden && !running && !reduce){
-      running = true; last = performance.now(); requestAnimationFrame(frame);
-    } else running = false;
-  });
-
-  if(reduce){
-    var g0 = gust(4000);
-    HAIRS.forEach(function(o){ o.el.setAttribute('d', hairD(o, 4000, g0)); });
-    if(ribbon) ribbon.setAttribute('d', ribbonD(4000, g0));
-    cape.setAttribute('d', capeD(4000, g0));
-    STREAKS.forEach(function(s){ s.el.setAttribute('d', streakD(s, 4000)); });
-    dustStep(16, g0);
-  } else {
-    running = true;
-    requestAnimationFrame(frame);
-  }
+  /* stop burning GPU when the visual scrolls out of view */
+  window.__wakefield = { hero: hero, proof: proof };
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var inst = en.target.classList.contains('hero-visual') ? hero : proof;
+        if (!inst) return;
+        if (en.isIntersecting) { if (!inst.isRunning()) inst.start(); }
+        else { if (inst.isRunning()) inst.stop(); }
+      });
+    }, { threshold: 0.02 });
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.hero-visual, .show-visual'),
+      function (v) { io.observe(v); }
+    );
+  })();
 
   /* ============================================================
-     Second scene — a coupe standing in the same wind.
-     One analytic field: the streamlines are drawn from it, the
-     particles ride it, and the flag at the tail rides the gust.
+     Coupe / Hull tabs
      ============================================================ */
-  var carSvg = document.getElementById('carscene');
-  if(carSvg){
-    var fieldG = document.getElementById('field');
-    var dotsG  = document.getElementById('dots');
-    var flagEl = document.getElementById('flag');
-
-    // body in a normalized (cylinder) frame; ellipse drawn by scaling back
-    // ellipse fitted to the coupe outline (bbox x:74-358, y:145-232)
-    var CXc = 216, CYc = 188, AA = 140, BB = 44;
-    var X_TE = 350, xiTE = (X_TE - CXc) / AA;
-
-    // normalized far-field heights; |e|>=1 clears the body
-    var LANE_DEF = [
-      {e: 1.05, c:'#5eead4', r:1.5, ph:0},
-      {e: 1.34, c:'#5eead4', r:1.3, ph:0},
-      {e: 1.66, c:'#38bdf8', r:1.1, ph:0},
-      {e: 2.05, c:'#38bdf8', r:1.0, ph:0},
-      {e: 2.55, c:'#a78bfa', r:1.0, ph:0},
-      {e:-1.05, c:'#5eead4', r:1.3, ph:Math.PI},
-      {e:-1.34, c:'#38bdf8', r:1.1, ph:Math.PI},
-      {e:-1.66, c:'#38bdf8', r:1.0, ph:Math.PI},
-      {e:-2.05, c:'#a78bfa', r:1.0, ph:Math.PI},
-      {e:-2.55, c:'#a78bfa', r:1.0, ph:Math.PI}
-    ];
-
-    // streamfunction of uniform flow past a cylinder:  psi = U*y*(1 - a^2/r^2)
-    // solve for the streamline (eta) passing the far-field height eta0.
-    // two roots exist at xi=0; bracket on the same side as eta0 so we never
-    // cross into the opposite half (which would thread the body).
-    function etaOf(xi, eta0){
-      var lo, hi;
-      if(eta0 >= 0){ lo = eta0; hi = eta0 + 12; }
-      else         { hi = eta0; lo = eta0 - 12; }
-      for(var i=0;i<44;i++){
-        var mid = (lo+hi)/2;
-        var r2 = xi*xi + mid*mid; if(r2 < 1e-9) r2 = 1e-9;
-        var f = mid*(1 - 1/r2) - eta0;
-        if(f < 0) lo = mid; else hi = mid;
-      }
-      return (lo+hi)/2;
-    }
-    // von Karman-style wake: alternating, decaying, travelling oscillation
-    function wakeEta(xi, t, ph){
-      if(xi <= xiTE) return 0;
-      var s = xi - xiTE;
-      var decay = Math.exp(-s/1.4);
-      return 0.92 * decay * Math.sin(s*5.2 - t*0.006 + ph);
-    }
-
-    var laneEls = LANE_DEF.map(function(L){
-      var p = el('path');
-      p.setAttribute('stroke', L.c);
-      p.setAttribute('stroke-width', 1.2);
-      p.setAttribute('opacity', 0.36);
-      fieldG.appendChild(p);
-      return p;
+  (function () {
+    var tabs = document.querySelectorAll('.tab');
+    if (!tabs.length) return;
+    var tagEl = document.getElementById('viz-tag');
+    var f1 = document.getElementById('foot-1'),
+        f2 = document.getElementById('foot-2'),
+        f3 = document.getElementById('foot-3');
+    var META = {
+      car:    { tag: 'Live \u00b7 ferrari-458.glb \u00b7 wind tunnel', a: ['wind', '6.6 m/s'], b: ['model', 'ferrari 458'], c: ['solver', 'navier-stokes'] },
+      hull:   { tag: 'Live \u00b7 sail-ship.glb \u00b7 seaway',      a: ['water', '5.2 m/s'], b: ['wake', 'shedding'], c: ['solver', 'navier-stokes'] }
+    };
+    Array.prototype.forEach.call(tabs, function (btn) {
+      btn.addEventListener('click', function () {
+        var k = btn.getAttribute('data-scene');
+        Array.prototype.forEach.call(tabs, function (b) { b.classList.remove('on'); });
+        btn.classList.add('on');
+        if (hero) hero.setScene(k);
+        var m = META[k];
+        if (tagEl) tagEl.textContent = m.tag;
+        if (f1) f1.innerHTML = '<span class="k">' + m.a[0] + '</span> ' + m.a[1];
+        if (f2) f2.innerHTML = '<span class="k">' + m.b[0] + '</span> ' + m.b[1];
+        if (f3) f3.innerHTML = '<span class="k">' + m.c[0] + '</span> ' + m.c[1];
+      });
     });
-    function lanePath(L, t){
-      var pts = [], n = 66;
-      for(var i=0;i<=n;i++){
-        var xi = -2.1 + 4.95*i/n;
-        var eta = etaOf(xi, L.e) + wakeEta(xi, t, L.ph);
-        pts.push([CXc + xi*AA, CYc + eta*BB]);
-      }
-      return smooth(pts);
-    }
-
-    var PARTS = [];
-    for(var i=0;i<22;i++){
-      var L = LANE_DEF[i % LANE_DEF.length];
-      var c = el('circle');
-      c.setAttribute('fill', L.c);
-      c.setAttribute('r', L.r);
-      dotsG.appendChild(c);
-      PARTS.push({el:c, L:L, xi:-2.1 + Math.random()*4.95, sp:0.0022 + Math.random()*0.0018, ph:Math.random()*6.28});
-    }
-
-    function drawCar(t, g, dt){
-      for(var i=0;i<LANE_DEF.length;i++) laneEls[i].setAttribute('d', lanePath(LANE_DEF[i], t));
-      for(var j=0;j<PARTS.length;j++){
-        var p = PARTS[j];
-        p.xi += p.sp * (0.4 + g*1.4) * dt;
-        if(p.xi > 2.95) p.xi = -2.1;
-        var eta = etaOf(p.xi, p.L.e) + wakeEta(p.xi, t, p.L.ph);
-        p.el.setAttribute('cx', (CXc + p.xi*AA).toFixed(1));
-        p.el.setAttribute('cy', (CYc + eta*BB).toFixed(1));
-        p.el.setAttribute('opacity', (0.3 + g*0.4).toFixed(2));
-      }
-      var top = [], bot = [], n = 7, fx0 = 348, fy0 = 151, fl = 48;
-      for(var k=0;k<=n;k++){
-        var kk = k/n, x = fx0 + fl*kk;
-        top.push([x, fy0 + Math.sin(t*0.0051 + kk*3.4)*g*5.5*kk + Math.sin(kk*4.2)*1.8]);
-        bot.push([x, fy0 + 15 + Math.sin(t*0.0063 + kk*4.1)*g*6.5*kk + kk*2.4]);
-      }
-      var d = smooth(top);
-      for(var m=n;m>=0;m--) d += ' L' + bot[m][0].toFixed(1) + ',' + bot[m][1].toFixed(1);
-      flagEl.setAttribute('d', d + ' Z');
-    }
-
-    drawCar(4000, gust(4000), 0);   // static first paint before rAF starts
-    carDraw = drawCar;
-  }
+  })();
 
   /* ============================================================
      Email capture
-     FORM_ENDPOINT is intentionally empty: this build is a fake-door
-     test. Point it at Formspree / Tally / a Google Apps Script webhook
-     to start collecting real addresses. Empty = local demo only.
+     FORM_ENDPOINT is empty in this build = fake-door test
+     (submissions are kept in localStorage only).
+     Point it at Formspree / Tally / a Google Apps Script webhook
+     to start collecting real addresses.
      ============================================================ */
   var FORM_ENDPOINT = '';
 
@@ -945,6 +630,9 @@
     var form = document.getElementById(formId);
     var msg  = document.getElementById(msgId);
     if(!form) return;
+    var isBeta = !!form.querySelector('[name=model]');
+    var modelEl = form.querySelector('[name=model]');
+    var flowEl  = form.querySelector('[name=flow]');
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var input = form.querySelector('input[type=email]');
@@ -961,10 +649,16 @@
       btn.disabled = true;
 
       function ok(){
-        msg.textContent = "You're on the list. We'll reach out when your first gust opens up.";
+        msg.textContent = isBeta
+          ? "You're in. We'll reach out within 72 hours to grab your model file and set up your first take."
+          : "You're on the list. We'll reach out when your first flow opens up.";
         msg.classList.add('ok');
         form.style.display = 'none';
-        try{ localStorage.setItem('wakefield.beta.'+email, '1'); }catch(_){}
+        try{
+          localStorage.setItem('wakefield.beta.'+email, '1');
+          if (isBeta) localStorage.setItem('wakefield.beta.'+email+'.model',
+            (modelEl ? modelEl.value : '') + ' | ' + (flowEl ? flowEl.value : ''));
+        }catch(_){}
       }
       function fail(){
         msg.textContent = 'Something went wrong. Try again in a moment.';
@@ -973,11 +667,16 @@
         btn.disabled = false;
       }
 
+      var payload = {
+        email: email, source: formId,
+        model: modelEl ? (modelEl.value || '').trim() : '',
+        flow:  flowEl  ? flowEl.value : ''
+      };
       if(FORM_ENDPOINT){
         fetch(FORM_ENDPOINT, {
           method:'POST',
           headers:{'Content-Type':'application/json','Accept':'application/json'},
-          body: JSON.stringify({email: email, source: formId})
+          body: JSON.stringify(payload)
         }).then(function(r){ r.ok ? ok() : fail(); }).catch(fail);
       } else {
         setTimeout(ok, 450);
