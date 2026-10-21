@@ -57,8 +57,8 @@
     background:rgba(94,234,212,.06);padding:6px 13px;border-radius:100px;margin-bottom:26px}
   .dot{width:5px;height:5px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
   h1{font-size:clamp(2.4rem,4.6vw,3.8rem);font-weight:600;line-height:1.08;letter-spacing:-.03em;margin-bottom:22px}
-  h1 em{font-style:normal;background:linear-gradient(100deg,var(--teal),var(--sky) 45%,var(--violet));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
+  h1 em{font-style:normal;color:var(--teal)}
+  h1 em:last-child{color:var(--sky)}
   .sub{font-size:clamp(1rem,1.35vw,1.14rem);color:var(--muted);max-width:540px;margin-bottom:34px;line-height:1.62}
   .sub b{color:var(--text);font-weight:500}
 
@@ -89,20 +89,15 @@
   .hero-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   #fluid{touch-action:pan-y}
   #overlay{pointer-events:none}
-  .viz-tag{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--mono);font-size:10px;
-    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:rgba(7,9,13,.7);
-    border:1px solid var(--line);padding:5px 10px;border-radius:6px;backdrop-filter:blur(6px)}
-  .viz-foot{position:absolute;left:14px;right:14px;bottom:14px;z-index:3;display:flex;
-    justify-content:space-between;align-items:flex-end;gap:4px 14px;flex-wrap:wrap;
-    font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em;pointer-events:none}
-  .viz-foot .k{color:var(--muted)}
-  .tabs{position:absolute;right:14px;top:14px;z-index:4;display:flex;gap:4px;
-    background:rgba(7,9,13,.75);border:1px solid var(--line);padding:3px;border-radius:8px;backdrop-filter:blur(6px)}
-  .tab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--dim);background:transparent;border:0;cursor:pointer;padding:5px 11px;border-radius:6px;
+  .viz-hint{position:absolute;left:14px;bottom:12px;z-index:3;font-family:var(--mono);font-size:10px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--dim);pointer-events:none}
+  .tabs{position:absolute;right:12px;top:12px;z-index:4;display:flex;gap:2px;
+    background:rgba(10,14,20,.82);border:1px solid var(--line-2);padding:3px;border-radius:9px;backdrop-filter:blur(8px)}
+  .tab{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.02em;
+    color:var(--muted);background:transparent;border:0;cursor:pointer;padding:6px 14px;border-radius:6px;
     transition:color .2s,background .2s}
-  .tab:hover{color:var(--muted)}
-  .tab.on{background:rgba(94,234,212,.12);color:var(--teal);box-shadow:inset 0 0 0 1px rgba(94,234,212,.28)}
+  .tab:hover{color:var(--text)}
+  .tab.on{background:rgba(94,234,212,.14);color:var(--teal)}
   .scene{display:none}
   .scene.on{display:block}
 
@@ -113,19 +108,16 @@
   .sec-head p{color:var(--muted);margin-top:14px;font-size:15.5px;line-height:1.65}
 
   .how,.flows,.why{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 26px 26px;
-    position:relative;overflow:hidden;transition:border-color .25s}
-  .step:hover{border-color:var(--line-2)}
-  .step::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-    background:linear-gradient(90deg,transparent,rgba(94,234,212,.5),transparent);opacity:0;transition:opacity .25s}
-  .step:hover::before{opacity:1}
-  .step-n{font-family:var(--mono);font-size:11px;color:var(--teal);letter-spacing:.16em;display:block;margin-bottom:18px}
-  .step h3{font-size:17px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
-  .step p{color:var(--muted);font-size:14px;line-height:1.62}
-  .step p code{font-family:var(--mono);font-size:12px;color:var(--sky);
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:16px;align-items:stretch}
+  .flow-cell{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 26px 26px;
+    display:flex;flex-direction:column;gap:14px;transition:border-color .25s}
+  .flow-cell:hover{border-color:var(--line-2)}
+  .flow-cell svg{display:block}
+  .flow-cell h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .flow-cell p{color:var(--muted);font-size:13.5px;line-height:1.6}
+  .flow-cell p code{font-family:var(--mono);font-size:12px;color:var(--sky);
     background:rgba(56,189,248,.08);padding:2px 6px;border-radius:5px}
-
+  .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--dim)}
 
   .outs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   .out{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);
@@ -182,9 +174,8 @@
   .proof-in{display:flex;gap:0;flex-wrap:wrap}
   .proof-stat{flex:1;min-width:230px;padding:34px 30px;border-right:1px solid var(--line)}
   .proof-stat:last-child{border-right:none}
-  .proof-stat b{display:block;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:600;letter-spacing:-.02em;
-    background:linear-gradient(100deg,var(--teal),var(--sky) 55%,var(--violet));
-    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
+  .proof-stat b{display:block;font-size:clamp(1.35rem,2.2vw,1.7rem);font-weight:600;letter-spacing:-.01em;
+    color:var(--text);margin-bottom:10px}
   .proof-stat span{display:block;color:var(--muted);font-size:13.5px;line-height:1.6;max-width:270px}
 
   @media (max-width:1000px){.prices{grid-template-columns:repeat(2,1fr)}}
@@ -192,7 +183,9 @@
     .hero{padding:120px 0 70px}
     .hero-grid{grid-template-columns:1fr;gap:40px}
     .hero-visual{aspect-ratio:1/.8;order:-1}
-    .steps,.outs{grid-template-columns:1fr}
+    .flow{grid-template-columns:1fr}
+    .flow-arrow{transform:rotate(90deg);padding:2px 0}
+    .outs{grid-template-columns:1fr}
     .form-beta{grid-template-columns:1fr 1fr}
     .form-beta button{grid-column:1/-1}
     .proof-stat{border-right:none;border-bottom:1px solid var(--line)}
@@ -232,12 +225,12 @@
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow"><span class="dot"></span>For car, ship &amp; plane model enthusiasts</div>
-      <h1>Give it <em>wind.</em><br>Give it <em>water.</em></h1>
+      <h1>Put your models in the <em>wind.</em><br>And in the <em>water.</em></h1>
       <p class="sub">
-        Upload the model you already own &mdash; <b>car, ship or plane.</b> STL, OBJ or GLB.
-        We run it through a real Navier&ndash;Stokes solver, the same physics a wind tunnel uses,
-        and send back the film: <b>smoke off the canopy, a bow wave off the stem, spray over the deck.</b>
-        No rigging, no baking &mdash; about a minute.
+        Upload the car, ship or plane model on your shelf &mdash; <b>STL, OBJ or GLB.</b>
+        Wake runs it through a real Navier&ndash;Stokes solver, the same physics a wind tunnel uses,
+        and sends back the film: <b>smoke off the canopy, a bow wave off the stem, spray over the deck.</b>
+        No rigging, no baking.
       </p>
 
       <form class="form" id="form-hero" novalidate>
@@ -250,21 +243,16 @@
     </div>
 
     <div class="hero-visual">
-      <span class="viz-tag" id="viz-tag">Live &middot; ferrari-458.glb &middot; wind tunnel</span>
       <div class="tabs" role="tablist">
-        <button class="tab on" data-scene="car" role="tab">Coupe</button>
-        <button class="tab" data-scene="hull" role="tab">Hull</button>
+        <button class="tab on" data-scene="car" role="tab">Car</button>
+        <button class="tab" data-scene="hull" role="tab">Ship</button>
         <button class="tab" data-scene="plane" role="tab">Plane</button>
       </div>
 
       <canvas id="fluid"></canvas>
       <canvas id="overlay"></canvas>
 
-      <div class="viz-foot">
-        <span id="foot-1"><span class="k">wind</span> 6.6 m/s</span>
-        <span id="foot-2"><span class="k">model</span> ferrari 458</span>
-        <span id="foot-3"><span class="k">solver</span> navier-stokes</span>
-      </div>
+      <span class="viz-hint">live &middot; drag to stir</span>
     </div>
 </header>
 
@@ -291,22 +279,49 @@
       <span class="sec-num">01 &mdash; HOW IT WORKS</span>
       <h2>Three steps. No rigging, no baking.</h2>
     </div>
-    <div class="steps">
-      <div class="step">
-        <span class="step-n">STEP 01</span>
+    <div class="flow">
+
+      <div class="flow-cell">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5 3.5 7v10L12 21.5 20.5 17V7L12 2.5Z"/>
+          <path d="M3.5 7 12 11.5 20.5 7M12 11.5v10"/>
+        </svg>
         <h3>Drop a model</h3>
         <p>Anything with a shape. <code>STL</code> <code>OBJ</code> <code>3MF</code> <code>GLB</code> &mdash; the same file you feed your printer.</p>
       </div>
-      <div class="step">
-        <span class="step-n">STEP 02</span>
+
+      <div class="flow-arrow" aria-hidden="true">
+        <svg width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h18M15 2l5 5-5 5"/>
+        </svg>
+      </div>
+
+      <div class="flow-cell">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h11a3 3 0 1 0-3-3"/>
+          <path d="M3 13h8a2.5 2.5 0 1 1-2.5 2.5"/>
+          <path d="M3 18h6"/>
+        </svg>
         <h3>Pick the flow</h3>
         <p>Air or water. Direction, strength &mdash; and for water: wave height, spray, and the wake.</p>
       </div>
-      <div class="step">
-        <span class="step-n">STEP 03</span>
+
+      <div class="flow-arrow" aria-hidden="true">
+        <svg width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h18M15 2l5 5-5 5"/>
+        </svg>
+      </div>
+
+      <div class="flow-cell">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/>
+          <path d="M7 4.5v15M17 4.5v15M2.5 9.5h19M2.5 14.5h19"/>
+          <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill="#a78bfa" stroke="none"/>
+        </svg>
         <h3>Take the film</h3>
         <p>A looping video of your model, alive. Post it, send it, keep it.</p>
       </div>
+
     </div>
     <div class="runs">
       <span class="runs-k">Runs on anything with a shape</span>
@@ -343,7 +358,7 @@
 
       <div class="out">
         <div class="out-img">
-          <img src="assets/out-motion.png" alt="Seaway frame: bow wave and wake behind a ship model">
+          <img src="assets/out-motion.png" alt="Wind-tunnel frame: smoke sweeps across a scale jet model">
         </div>
         <div class="out-body">
           <h3>The motion</h3>
@@ -519,31 +534,17 @@
   })();
 
   /* ============================================================
-     Coupe / Hull tabs
+     Car / Ship / Plane tabs
      ============================================================ */
   (function () {
     var tabs = document.querySelectorAll('.tab');
     if (!tabs.length) return;
-    var tagEl = document.getElementById('viz-tag');
-    var f1 = document.getElementById('foot-1'),
-        f2 = document.getElementById('foot-2'),
-        f3 = document.getElementById('foot-3');
-    var META = {
-      car:    { tag: 'Live \u00b7 ferrari-458.glb \u00b7 wind tunnel', a: ['wind', '6.6 m/s'], b: ['model', 'ferrari 458'], c: ['solver', 'navier-stokes'] },
-      hull:   { tag: 'Live \u00b7 sail-ship.glb \u00b7 seaway',      a: ['water', '5.2 m/s'], b: ['wake', 'shedding'], c: ['solver', 'navier-stokes'] },
-      plane:  { tag: 'Live \u00b7 regional-jet.glb \u00b7 wind tunnel', a: ['wind', '7.2 m/s'], b: ['model', 'regional jet'], c: ['solver', 'navier-stokes'] }
-    };
     Array.prototype.forEach.call(tabs, function (btn) {
       btn.addEventListener('click', function () {
         var k = btn.getAttribute('data-scene');
         Array.prototype.forEach.call(tabs, function (b) { b.classList.remove('on'); });
         btn.classList.add('on');
         if (hero) hero.setScene(k);
-        var m = META[k];
-        if (tagEl) tagEl.textContent = m.tag;
-        if (f1) f1.innerHTML = '<span class="k">' + m.a[0] + '</span> ' + m.a[1];
-        if (f2) f2.innerHTML = '<span class="k">' + m.b[0] + '</span> ' + m.b[1];
-        if (f3) f3.innerHTML = '<span class="k">' + m.c[0] + '</span> ' + m.c[1];
       });
     });
   })();

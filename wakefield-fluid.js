@@ -309,7 +309,7 @@
     /* dye under the surface is tinted toward sea water, so the currents read
        as water and never as pale smoke; foam and spray at the line stay white */
     '    float dpt = clamp((wl - vUv.y) / 0.30, 0.0, 1.0);',
-    '    c = mix(c, c * vec3(0.50, 0.92, 1.28), dpt);',
+    '    c = mix(c, c * vec3(0.34, 0.80, 1.42), dpt);',
     '    col += c * 1.25;',
     '    col += spec * d * 0.55;',
     /* the ship's reflection: mirrored above the line, wobbling, fading with depth */
@@ -675,7 +675,7 @@
          the canvas), the waterline sits at 1 - waterLine = 0.50, so the rake
          must stay BELOW 0.50 — feeding it above the line reads as smoke. */
       lineCount: 7, lineFrom: 0.100, lineTo: 0.440,
-      dye: [0.42, 0.70, 0.95], dyeVar: 0.26, dyeGain: 0.030, splatRadius: 0.042,
+      dye: [0.28, 0.56, 0.92], dyeVar: 0.26, dyeGain: 0.030, splatRadius: 0.042,
       waterLine: 0.50, heave: 0.0125, pitchDeg: 1.6, waveAmp: 0.0090,
       tag: 'Live · sail-ship.glb · seaway',
       foot: [['water', '5.2 m/s'], ['wake', 'shedding'], ['solver', 'navier-stokes']]
@@ -684,10 +684,10 @@
       mode: 0, sil: 'planeReal', flowDir: 1,  /* wind left -> right, the real jet noses into it */
       inflow: 7.2, gust: 0.34,
       velDiss: 0.19, denDiss: 2.90, curl: 20, pressure: 0.84,
-      /* the main rake sweeps the wing chord and separates over the fuselage;
-         the upper pair runs clean above the fin */
-      lineCount: 4, lineFrom: 0.205, lineTo: 0.325,
-      lines2: { count: 2, from: 0.455, to: 0.495 },
+      /* one rake sweeps the whole airframe: the flow slams into the nose,
+         parts around the fuselage and trails off the wing. No clean band
+         floating above the plane — every wisp touches the aircraft.        */
+      lineCount: 4, lineFrom: 0.150, lineTo: 0.460,
       dye: [0.34, 0.70, 1.00], dyeVar: 0.30, dyeGain: 0.036, splatRadius: 0.050,
       tag: 'Live · regional-jet.glb · wind tunnel',
       foot: [['wind', '7.2 m/s'], ['model', 'regional jet'], ['solver', 'navier-stokes']]
@@ -1004,14 +1004,15 @@
         [foam[0] * g * 2.0, foam[1] * g * 2.0, foam[2] * g * 2.0], 0.028);
       splat(p.bow - 0.016, wl - 0.010, -70 * pulse, -6 * pulse,
         [foam[0] * g * 1.4, foam[1] * g * 1.4, foam[2] * g * 1.4], 0.022);
-      /* spray: a few droplets off the stem, thrown up and fanned back */
-      for (var i = 0; i < 3; i++) {
-        splat(p.bow - 0.006 + (Math.random() - 0.5) * 0.012,
-              wl + 0.004 + Math.random() * 0.012,
+      /* spray: two droplets off the stem, low and tight — anything higher
+         or wider turns into pale smoke columns above the line            */
+      for (var i = 0; i < 2; i++) {
+        splat(p.bow - 0.006 + (Math.random() - 0.5) * 0.010,
+              wl + 0.002 + Math.random() * 0.006,
               -60 * pulse - Math.random() * 50,
-              26 + Math.random() * 52,
-              [foam[0] * g * 2.6, foam[1] * g * 2.6, foam[2] * g * 2.6],
-              0.009 + Math.random() * 0.008);
+              10 + Math.random() * 22,
+              [foam[0] * g * 2.2, foam[1] * g * 2.2, foam[2] * g * 2.2],
+              0.006 + Math.random() * 0.005);
       }
       /* under-bow current: the sea is deflected DOWN along the hull */
       splat(p.bow - 0.030, wl - 0.034, -80 * pulse, -34 * pulse,
@@ -1311,20 +1312,8 @@
                              bwX + W * 0.082, bwY + H * 0.005);
         ctx.stroke();
         ctx.restore();
-      } else {
-        /* inlet rake on the left */
-        ctx.save();
-        ctx.strokeStyle = 'rgba(56,189,248,.35)';
-        ctx.lineWidth = Math.max(1, W * 0.0016);
-        for (var i = 0; i <= 10; i++) {
-          var yy = H * (0.06 + i * 0.088);
-          ctx.beginPath();
-          ctx.moveTo(W * 0.030, yy);
-          ctx.lineTo(W * 0.052, yy);
-          ctx.stroke();
-        }
-        ctx.restore();
       }
+      /* air scenes carry no HUD chrome: the flow and the model are the picture */
     }
 
     /* -------------------------------- loop -------------------------------- */
