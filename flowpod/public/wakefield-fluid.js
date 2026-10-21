@@ -303,6 +303,11 @@
     '    sea += vec3(0.055, 0.115, 0.125) * s1 * exp(-depth * 22.0);',
     '    sea += vec3(0.045, 0.095, 0.105) * s2 * exp(-depth * 38.0);',
     '    sea += vec3(0.035, 0.075, 0.085) * s3 * exp(-depth * 60.0);',
+    /* moving glints follow the water surface instead of filling the sea
+       with cloudy dye as the wind scenes do */
+    '    float ripple = sin(vUv.x * 82.0 + sin(vUv.x * 24.0 - ph) * 2.0 - ph * 3.0);',
+    '    ripple += sin(vUv.x * 113.0 + ph * 2.2) * 0.42;',
+    '    sea += vec3(0.025, 0.080, 0.100) * max(ripple, 0.0) * exp(-depth * 24.0);',
     /* horizon glow where sky meets sea */
     '    float hor = exp(-pow((vUv.y - wl) * 130.0, 2.0));',
     '    col = mix(sea, sky, isSky) + vec3(0.100, 0.170, 0.200) * hor;',
@@ -310,8 +315,9 @@
        as water and never as pale smoke; foam and spray at the line stay white */
     '    float dpt = clamp((wl - vUv.y) / 0.30, 0.0, 1.0);',
     '    c = mix(c, c * vec3(0.34, 0.80, 1.42), dpt);',
-    '    col += c * 1.25;',
-    '    col += spec * d * 0.55;',
+    '    float surfaceFlow = exp(-abs(vUv.y - wl) * 37.0);',
+    '    col += c * 1.25 * surfaceFlow;',
+    '    col += spec * d * 0.55 * surfaceFlow;',
     /* the ship's reflection: mirrored above the line, wobbling, fading with depth */
     '    if (uSpriteRect.w > 0.0 && vUv.y < wl) {',
     '      vec2 suv3 = (vUv - uSpriteRect.xy) / uSpriteRect.zw;',
@@ -671,10 +677,9 @@
       mode: 1, sil: 'shipReal', flowDir: -1, /* water flows right -> left, the real tall ship heads right */
       inflow: 5.2, gust: 0.30,
       velDiss: 0.14, denDiss: 1.55, curl: 19, pressure: 0.86,
-      /* surface currents live IN the water. splat y is y-up (0 = bottom of
-         the canvas), the waterline sits at 1 - waterLine = 0.50, so the rake
-         must stay BELOW 0.50 — feeding it above the line reads as smoke. */
-      lineCount: 7, lineFrom: 0.100, lineTo: 0.440,
+      /* A ship makes a surface wake. Inlet dye lines look like smoke, even
+         when they are blue, so only the hull sheds visible flow. */
+      lineCount: 0, lineFrom: 0.100, lineTo: 0.440,
       dye: [0.28, 0.56, 0.92], dyeVar: 0.26, dyeGain: 0.030, splatRadius: 0.042,
       waterLine: 0.50, heave: 0.0125, pitchDeg: 1.6, waveAmp: 0.0090,
       tag: 'Live · sail-ship.glb · seaway',
@@ -1312,6 +1317,27 @@
                              bwX + W * 0.082, bwY + H * 0.005);
         ctx.stroke();
         ctx.restore();
+
+        /* The ship points right, so its surface wake trails left of the
+           stern. Short broken crests read as water rather than smoke. */
+        var sternX = bw.stern * W;
+        for (var j = 0; j < 3; j++) {
+          var drift = (t * 0.00013 + j / 3) % 1;
+          var wakeX = sternX - drift * W * 0.15;
+          if (wakeX < 4) continue;
+          var wakeY = waveAt(wakeX, 7.2, 0, amp) + H * (0.006 + drift * 0.008);
+          var wakeLen = W * (0.024 + drift * 0.032);
+          ctx.beginPath();
+          ctx.moveTo(wakeX - wakeLen, wakeY + H * 0.003);
+          ctx.quadraticCurveTo(wakeX - wakeLen * 0.5, wakeY - H * 0.007,
+                               wakeX, wakeY);
+          ctx.strokeStyle = 'rgba(210,250,255,' + (0.50 * (1 - drift) + 0.14).toFixed(3) + ')';
+          ctx.lineWidth = Math.max(1.2, W * (0.0028 - drift * 0.0013));
+          ctx.shadowColor = 'rgba(115,230,250,.65)';
+          ctx.shadowBlur = W * 0.008;
+          ctx.stroke();
+        }
+        ctx.shadowBlur = 0;
       }
       /* air scenes carry no HUD chrome: the flow and the model are the picture */
     }
