@@ -2,6 +2,10 @@
   "name": "flowpod",
   "compatibility_date": "2026-10-21",
   "workers_dev": true,
+  "routes": [
+    { "pattern": "flowpod.online", "custom_domain": true },
+    { "pattern": "www.flowpod.online", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./public"
   }
