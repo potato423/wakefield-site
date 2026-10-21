@@ -1,0 +1,13 @@
+{
+  "name": "flowpod-site",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node --check public/app.js && node --check public/wakefield-fluid.js",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.3"
+  }
+}

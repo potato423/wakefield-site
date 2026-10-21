@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flowpod — See your model come alive in wind and water</title>
+<meta name="description" content="Flowpod is a visual wind-and-water studio for car, ship and plane model enthusiasts. Explore live sample scenes and join the beta to try it with your own 3D model.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <rect width="30" height="30" rx="8" fill="#b9fb75"/>
+        <path d="M6 17c3.2 0 3.2-5 6.4-5s3.2 5 6.4 5 3.2-5 6.2-5" stroke="#102015" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <b>flowpod</b>
+      <span>air &middot; water</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How</a>
+      <a href="#outputs">What you'll see</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-primary btn-nav" href="#join">Join the beta</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>For car, ship &amp; plane model enthusiasts</div>
+      <h1>See your model <em>come alive</em><br>in wind &amp; <em>water.</em></h1>
+      <p class="sub">
+        A virtual flow studio for the models you build and collect.
+        Watch smoke trail over a car, air stream past a plane, or a wake unfold behind a ship.
+        <b>Join the beta to try it with your own 3D model.</b>
+      </p>
+      <div class="hero-actions"><a class="btn btn-primary hero-cta" href="#join">Join the beta <span aria-hidden="true">↗</span></a><a class="btn hero-secondary" href="#how">See how it works <span aria-hidden="true">↓</span></a></div>
+      <p class="hero-note">Explore the sample scenes now. Your own model is available by beta invitation.</p>
+    </div>
+
+    <div class="hero-visual">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-scene="car" role="tab" aria-selected="true">Car</button>
+        <button class="tab" data-scene="hull" role="tab" aria-selected="false">Ship</button>
+        <button class="tab" data-scene="plane" role="tab" aria-selected="false">Plane</button>
+      </div>
+
+      <canvas id="fluid"></canvas>
+      <canvas id="overlay"></canvas>
+
+      <span class="viz-hint">LIVE PREVIEW &middot; DRAG TO STIR</span>
+    </div>
+  </div>
+</header>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01 &mdash; HOW IT WORKS</span>
+      <h2>From a model on your shelf to a scene in motion.</h2>
+    </div>
+    <div class="flow">
+
+      <div class="flow-cell">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#b9fb75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5 3.5 7v10L12 21.5 20.5 17V7L12 2.5Z"/>
+          <path d="M3.5 7 12 11.5 20.5 7M12 11.5v10"/>
+        </svg>
+        <h3>Start with a scene</h3>
+        <p>Switch between the car, ship and plane above. See the flow before you bring your own model.</p>
+      </div>
+
+      <div class="flow-arrow" aria-hidden="true">
+        <svg width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h18M15 2l5 5-5 5"/>
+        </svg>
+      </div>
+
+      <div class="flow-cell">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#b9fb75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h11a3 3 0 1 0-3-3"/>
+          <path d="M3 13h8a2.5 2.5 0 1 1-2.5 2.5"/>
+          <path d="M3 18h6"/>
+        </svg>
+        <h3>Bring your 3D model</h3>
+        <p>We are inviting early testers with <code>STL</code>, <code>OBJ</code> or <code>GLB</code> files. Tell us what you would put in the flow.</p>
+      </div>
+
+      <div class="flow-arrow" aria-hidden="true">
+        <svg width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h18M15 2l5 5-5 5"/>
+        </svg>
+      </div>
+
+      <div class="flow-cell">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#b9fb75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/>
+          <path d="M7 4.5v15M17 4.5v15M2.5 9.5h19M2.5 14.5h19"/>
+          <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill="#b9fb75" stroke="none"/>
+        </svg>
+        <h3>Make a clip worth sharing</h3>
+        <p>The beta is focused on a visual scene you can explore, capture and show to other model lovers.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="outputs">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02 &mdash; SEE THE POSSIBILITIES</span>
+      <h2>The kind of shot a shelf cannot give you.</h2>
+    </div>
+    <div class="outs">
+
+      <div class="out">
+        <div class="out-img">
+          <img src="assets/out-film.png" alt="Wind-tunnel frame: smoke trails off a scale car model">
+        </div>
+        <div class="out-body">
+          <h3>Car &mdash; air over the body</h3>
+          <p>Give a favorite car model the wind-tunnel moment it deserves.</p>
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="out-img">
+          <img src="assets/out-motion.png" alt="Wind-tunnel frame: smoke sweeps across a scale jet model">
+        </div>
+        <div class="out-body">
+          <h3>Plane &mdash; flow past the wings</h3>
+          <p>See a familiar aircraft silhouette through moving streams of air.</p>
+        </div>
+      </div>
+
+      <div class="out">
+        <div class="out-img">
+          <img src="assets/out-stills.png" alt="Seaway frame: spray and wake around a ship model">
+        </div>
+        <div class="out-body">
+          <h3>Ship &mdash; a wake on the water</h3>
+          <p>Watch the hull meet the surface and leave a trail behind it.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head price-intro">
+      <span class="sec-num">03 &mdash; PRICING</span>
+      <h2>Start with a preview. Make the shot yours.</h2>
+      <p>Beta access is free. These are proposed prices for when personal model renders become available; no payment is taken today.</p>
+    </div>
+    <div class="prices">
+      <div class="price">
+        <div class="price-name">Preview</div>
+        <div class="price-val">$0 <small>planned</small></div>
+        <div class="price-per">a first look</div>
+        <ul>
+          <li>Explore sample car, ship and plane scenes</li>
+          <li>See the visual style before uploading</li>
+        </ul>
+        <a class="btn" href="#join">Join the beta</a>
+      </div>
+      <div class="price feat">
+        <div class="price-name">Single take</div>
+        <div class="price-val">$4 <small>planned</small></div>
+        <div class="price-per">one personal render</div>
+        <ul>
+          <li>One model in air or water</li>
+          <li>A shareable video clip</li>
+        </ul>
+        <a class="btn btn-primary" href="#join">Join the beta</a>
+      </div>
+      <div class="price">
+        <div class="price-name">Pack</div>
+        <div class="price-val">$15 <small>planned</small></div>
+        <div class="price-per">five takes</div>
+        <ul>
+          <li>For a collection or a series</li>
+          <li>Try different angles and models</li>
+        </ul>
+        <a class="btn" href="#join">Join the beta</a>
+      </div>
+      <div class="price">
+        <div class="price-name">Creator</div>
+        <div class="price-val">$29<span>/mo</span> <small>planned</small></div>
+        <div class="price-per">for regular creators</div>
+        <ul>
+          <li>For frequent model videos</li>
+          <li>Tell us what you need in beta</li>
+        </ul>
+        <a class="btn" href="#join">Join the beta</a>
+      </div>
+    </div>
+    <p class="price-note">Prices and included features may change after testing. Joining the beta does not start a paid plan.</p>
+  </div>
+</section>
+
+<section class="final" id="join">
+  <div class="wrap">
+    <span class="sec-num" style="text-align:center">04 &mdash; JOIN THE BETA</span>
+    <h2>What would your model look like in the flow?</h2>
+    <p class="sub">Tell us what you build or collect. We are inviting early testers to help shape Flowpod around real car, ship and plane models.</p>
+
+    <form class="form form-beta" id="form-final" novalidate>
+      <div class="field">
+        <input type="email" name="email" placeholder="Your email" aria-label="Your email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <input type="text" name="model" placeholder="Your model, e.g. 1:18 car" aria-label="Your model" required>
+      </div>
+      <div class="field">
+        <select name="flow" aria-label="Air or water">
+          <option value="air">Air &mdash; wind tunnel</option>
+          <option value="water">Water &mdash; wake &amp; spray</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+      <label class="wish-field" for="wish">
+        <span>What else would you like Flowpod to make possible?</span>
+        <textarea id="wish" name="wish" placeholder="Tell us the next thing you would love to do with your model." maxlength="1000" required></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary">Join the beta</button>
+    </form>
+    <div class="form-msg" id="msg-final" role="status" aria-live="polite"></div>
+    <div class="beta-draft" id="beta-draft" hidden>
+      <p>The online form is temporarily unavailable. You can send the same request from your email app.</p>
+      <div class="beta-draft-actions">
+        <a class="btn btn-primary" id="open-email" href="mailto:jej03701@gmail.com">Open email app</a>
+        <button class="btn" id="copy-request" type="button">Copy request</button>
+      </div>
+      <textarea id="request-text" aria-label="Beta request email" readonly></textarea>
+    </div>
+    <p class="form-note" id="beta-note">Beta signup is free. We use your answers only to contact you about Flowpod. <a href="privacy.html">Privacy</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <p>FLOWPOD &mdash; AIR &amp; WATER, MADE VISIBLE</p>
+    <p>EARLY PREVIEW &middot; <a href="faq.html">FAQ</a> &middot; <a href="terms.html">TERMS</a> &middot; <a href="privacy.html">PRIVACY</a> &middot; <a href="mailto:jej03701@gmail.com">CONTACT</a> &middot; 2026</p>
+    <p class="credit">Demo vehicles: Ferrari 458 Italia by <a href="https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6" target="_blank" rel="noopener noreferrer">vicent091036</a>, via <a href="https://threejs.org/examples/webgl_materials_car.html" target="_blank" rel="noopener noreferrer">three.js</a> &middot; Sail Ship by <a href="https://quaternius.com" target="_blank" rel="noopener noreferrer">Quaternius</a>, public domain (CC0) &middot; Regional jet by <a href="https://www.innerscene.com/tools/library/3d-parts/regional-jet-aircraft-ae1f8f3d" target="_blank" rel="noopener noreferrer">Innerscene</a>, CC0.</p>
+  </div>
+</footer>
+<script src="wakefield-fluid.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
